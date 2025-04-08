@@ -1,0 +1,7 @@
+/* Add custom styles or use Tailwind classes */
+.sidebar {
+    width: 100%;
+    min-height: 100vh;
+    background-color: #ffffff;
+    padding: 1rem;
+  }
