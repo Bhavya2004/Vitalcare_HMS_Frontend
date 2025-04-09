@@ -8,7 +8,6 @@ export const routes: Routes = [
     { path: '', component: HomeComponent }, // Homepage
     { path: 'sign-in', component: LoginComponent }, // Login page
     { path: 'sign-up', component: RegisterComponent }, // Register page
-    { path: 'patient', component: LoginComponent }, // Example route for patient dashboard
 ];
 
 @NgModule({

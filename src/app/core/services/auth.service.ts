@@ -41,14 +41,4 @@ export class AuthService {
     return this.role;
   }
 
-   // Method to set the user's role (useful for testing or dynamic role assignment)
-   setRole(role: string): void {
-    this.role = role;
-  }
-
-  logout(): void {
-    this.isAuthenticated = false;
-    this.role = '';
-  }
-
 }

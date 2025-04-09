@@ -29,7 +29,7 @@ export class RegisterComponent {
       },
       error: (error) => {
         console.error('Registration failed:', error);
-        this.errorMessage = error.error.message || 'Registration failed. Please try again.';
+        this.errorMessage = error.error.message ;
       },
     });
   }
