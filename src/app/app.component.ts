@@ -1,10 +1,14 @@
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { SidebarComponent } from './layout/sidebar/sidebar.component';
+import { HttpClient } from '@angular/common/http';
+import { HomeComponent } from './features/home/home.component';
+import { LoginComponent } from './features/auth/login/login.component';
+import { RegisterComponent } from './features/auth/register/register.component';
 
 @Component({
   selector: 'app-root',
-  imports: [SidebarComponent,RouterOutlet],
+  imports: [SidebarComponent,RouterOutlet,HomeComponent,LoginComponent,RegisterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
