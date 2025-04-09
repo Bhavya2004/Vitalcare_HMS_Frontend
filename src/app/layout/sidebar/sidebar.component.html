@@ -1,0 +1,36 @@
+<div class="w-full p-4 flex flex-col justify-between gap-4 bg-white overflow-y-scroll min-h-full">
+    <div>
+      <!-- Sidebar Header -->
+      <div class="flex items-center justify-center lg:justify-start gap-2">
+        <div class="p-1.5 rounded-md bg-blue-600 text-white">
+          <span class="material-icons">dashboard</span>
+        </div>
+        <a routerLink="/" class="hidden lg:flex text-base 2xl:text-xl font-bold">
+          VitalCare HMS
+        </a>
+      </div>
+  
+      <!-- Sidebar Links -->
+      <div class="mt-4 text-sm">
+        <div *ngFor="let section of sidebarLinks" class="flex flex-col gap-2">
+          <!-- Section Label -->
+          <span class="hidden uppercase lg:block text-gray-400 font-bold my-4">
+            {{ section.label }}
+          </span>
+  
+          <!-- Links -->
+          <div *ngFor="let link of section.links">
+            <a
+              *ngIf="hasAccess(link.access)"
+              [routerLink]="link.href"
+              class="flex items-center justify-center lg:justify-start gap-4 text-gray-500 py-2 md:px-2 rounded-md hover:bg-blue-600/10"
+            >
+              <!-- <span class="material-icons">{{ link.icon }}</span> -->
+              <span class="hidden lg:block">{{ link.name }}</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>
