@@ -5,11 +5,10 @@ import { NavbarComponent } from '../../layout/navbar/navbar.component';
 
 @Component({
   selector: 'app-home',
-  imports: [RouterLink,NavbarComponent],
+  imports: [RouterLink, NavbarComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  
-  
+  // Original component without the auto-redirect logic
 }

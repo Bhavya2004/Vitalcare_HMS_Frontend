@@ -1,0 +1,136 @@
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Gradient text effect */
+.gradient-text {
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Card hover effects */
+.feature-card {
+  transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Button hover effects */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+.btn-primary:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-section {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+/* Modern styling for the home component */
+:host {
+  display: block;
+  min-height: 100vh;
+}
+
+/* Gradient text effect */
+.text-blue-600 {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button hover effects */
+a {
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  transform: translateY(-2px);
+}
+
+/* Feature card hover effects */
+.bg-white {
+  transition: all 0.3s ease;
+}
+
+.bg-white:hover {
+  transform: translateY(-5px);
+}
+
+/* Material Icons styling */
+.material-icons {
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .text-lg {
+    font-size: 1rem;
+  }
+}
+
+/* Animation for feature cards */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bg-white {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.bg-white:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.bg-white:nth-child(3) {
+  animation-delay: 0.4s;
+}
