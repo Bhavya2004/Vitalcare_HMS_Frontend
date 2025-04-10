@@ -10,6 +10,13 @@ interface LoginResponse {
   };
 }
 
+interface RegisterRequest {
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,8 +49,8 @@ export class AuthService {
   }
 
   //Register Method
-  register(email: string, password: string, firstName: string, lastName: string) {
-    return this.http.post(`${this.baseUrl}/register`, { email, password, firstName, lastName });
+  register(data: RegisterRequest) {
+    return this.http.post(`${this.baseUrl}/register`, data);
   }
 
   // Method to check if the user is authenticated

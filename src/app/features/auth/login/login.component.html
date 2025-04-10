@@ -73,9 +73,13 @@
                 autocomplete="email"
                 required
                 [(ngModel)]="email"
+                [class.border-red-500]="fieldErrors['email']"
                 class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50 backdrop-blur-sm"
                 placeholder="Enter your email"
               />
+            </div>
+            <div *ngIf="fieldErrors['email']" class="mt-1 text-sm text-red-500">
+              {{ fieldErrors['email'] }}
             </div>
           </div>
 
@@ -100,9 +104,13 @@
                 autocomplete="current-password"
                 required
                 [(ngModel)]="password"
+                [class.border-red-500]="fieldErrors['password']"
                 class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50 backdrop-blur-sm"
                 placeholder="Enter your password"
               />
+            </div>
+            <div *ngIf="fieldErrors['password']" class="mt-1 text-sm text-red-500">
+              {{ fieldErrors['password'] }}
             </div>
           </div>
         </div>
@@ -111,14 +119,17 @@
         <div *ngIf="errorMessage" class="text-red-500 text-sm text-center bg-red-50 p-3 rounded-lg border border-red-100">
           {{ errorMessage }}
         </div>
+        
 
         <!-- Submit Button -->
         <button
           type="submit"
-          class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 shadow-lg hover:shadow-xl"
+          [disabled]="isSubmitting"
+          class="w-full flex items-center justify-center gap-2 px-4 py-2.5 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition duration-200 shadow-lg hover:shadow-xl disabled:opacity-70 disabled:cursor-not-allowed"
         >
-          <span class="material-icons">login</span>
-          Sign in
+          <span *ngIf="!isSubmitting" class="material-icons">login</span>
+          <span *ngIf="isSubmitting" class="material-icons animate-spin">refresh</span>
+          {{ isSubmitting ? 'Signing in...' : 'Sign in' }}
         </button>
       </form>
 
