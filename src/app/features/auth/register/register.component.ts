@@ -4,6 +4,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { isValidEmail } from '../../../shared/utils/form-validation';
+import { ToastrService } from 'ngx-toastr';
 
 interface ValidationError {
   message: string;
@@ -26,7 +27,7 @@ export class RegisterComponent {
   fieldErrors: { [key: string]: string } = {};
   isSubmitting: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router,private toastr:ToastrService) {}
 
   // Frontend validation
   validateForm(): boolean {
@@ -84,6 +85,9 @@ export class RegisterComponent {
     }).subscribe({
       next: (response) => {
         this.isSubmitting = false;
+
+        this.toastr.success('Registration successful!', 'Welcome to VitalCare HMS');
+
         // Redirect to the login page
         this.router.navigate(['/sign-in']);
       },

@@ -4,6 +4,7 @@ import { AuthService } from '../../../core/services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { isValidEmail } from '../../../shared/utils/form-validation';
+import { ToastrService } from 'ngx-toastr';
 
 interface ValidationError {
   path: string[];
@@ -26,7 +27,8 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) { }
 
   // Frontend validation
@@ -84,6 +86,8 @@ export class LoginComponent {
           // Update the auth service
           this.authService.setRole(userRole);
           
+          this.toastr.success('Login successful!', 'Welcome Back');
+
           // Redirect to the dashboard
           this.router.navigate(['/dashboard']);
         } catch (error) {
