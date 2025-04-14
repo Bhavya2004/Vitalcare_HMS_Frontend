@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { isValidEmail } from '../../../shared/utils/form-validation';
 import { ToastrService } from 'ngx-toastr';
+import { PatientService } from '../../../core/services/patient.service';
 
 interface ValidationError {
   path: string[];
@@ -27,6 +28,7 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
+    private patientService: PatientService,
     private router: Router,
     private toastr: ToastrService
   ) { }
@@ -88,8 +90,26 @@ export class LoginComponent {
           
           this.toastr.success('Login successful!', 'Welcome Back');
 
-          // Redirect to the dashboard
-          this.router.navigate(['/dashboard']);
+          // Handle redirection based on role
+          if (userRole === 'PATIENT') {
+            // For patients, check registration status
+            this.patientService.checkPatientRegistration().subscribe({
+              next: (isRegistered) => {
+                if (isRegistered) {
+                  this.router.navigate(['/dashboard']);
+                } else {
+                  this.router.navigate(['/patient/register']);
+                }
+              },
+              error: () => {
+                // On error, redirect to registration
+                this.router.navigate(['/patient/register']);
+              }
+            });
+          } else {
+            // For other roles, go directly to dashboard
+            this.router.navigate(['/dashboard']);
+          }
         } catch (error) {
           this.errorMessage = 'Error processing login response';
         }
