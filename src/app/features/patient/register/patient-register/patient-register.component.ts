@@ -22,6 +22,7 @@ export class PatientRegisterComponent implements OnInit {
   fieldErrors: { [key: string]: string } = {};
   errorMessage: string = '';
   imagePreview: string | null = null;
+  selectedImageFile: File | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -86,7 +87,15 @@ export class PatientRegisterComponent implements OnInit {
     if (this.registrationForm.valid) {
       this.isSubmitting = true;
       
-      this.patientService.registerPatient(this.registrationForm.value).subscribe({
+      // Get form values
+      const formData = this.registrationForm.value;
+      
+      // Remove the img field from formData if it exists (we'll send the file separately)
+      if (formData.img) {
+        delete formData.img;
+      }
+      
+      this.patientService.registerPatient(formData, this.selectedImageFile || undefined).subscribe({
         next: () => {
           this.isSubmitting = false;
           this.toastr.success('Patient registration successful!', 'Welcome to VitalCare HMS');
@@ -162,11 +171,13 @@ export class PatientRegisterComponent implements OnInit {
         return;
       }
 
+      // Store the file object for later use
+      this.selectedImageFile = file;
+
       // Create preview
       const reader = new FileReader();
       reader.onload = () => {
         this.imagePreview = reader.result as string;
-        this.registrationForm.patchValue({ img: reader.result });
       };
       reader.readAsDataURL(file);
     }

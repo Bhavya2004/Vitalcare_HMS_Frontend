@@ -43,9 +43,25 @@ export class PatientService {
     });
   }
 
-  registerPatient(patientData: PatientRegistrationData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/register`, patientData, { 
-      headers: this.getAuthHeaders() 
+  registerPatient(patientData: PatientRegistrationData, imageFile?: File): Observable<any> {
+    // Create FormData object to send multipart/form-data
+    const formData = new FormData();
+    
+    // Add all patient data fields to FormData
+    Object.keys(patientData).forEach(key => {
+      if (patientData[key as keyof PatientRegistrationData] !== undefined) {
+        formData.append(key, patientData[key as keyof PatientRegistrationData] as string);
+      }
+    });
+    
+    // Add image file if provided
+    if (imageFile) {
+      formData.append('img', imageFile);
+    }
+    
+    // Send FormData with appropriate headers
+    return this.http.post(`${this.apiUrl}/register`, formData, { 
+      headers: this.getAuthHeaders()
     });
   }
 
