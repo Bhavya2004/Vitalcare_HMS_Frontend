@@ -1,0 +1,98 @@
+/* Card animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply animations to elements */
+.bg-white {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+/* Staggered animations for cards */
+.grid > div:nth-child(1) { animation-delay: 0.1s; }
+.grid > div:nth-child(2) { animation-delay: 0.2s; }
+.grid > div:nth-child(3) { animation-delay: 0.3s; }
+
+/* Card hover effects */
+.bg-white {
+  transition: all 0.3s ease;
+}
+
+.bg-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Icon animations */
+.material-icons {
+  transition: all 0.3s ease;
+}
+
+button:hover .material-icons {
+  transform: translateX(4px);
+}
+
+/* Stats number animation */
+.text-2xl {
+  transition: all 0.3s ease;
+}
+
+.bg-white:hover .text-2xl {
+  transform: scale(1.1);
+}
+
+/* Scrollbar styling */
+.flex-1 {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+.flex-1::-webkit-scrollbar {
+  width: 6px;
+}
+
+.flex-1::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.flex-1::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+/* Glass morphism effect */
+.backdrop-blur-sm {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+

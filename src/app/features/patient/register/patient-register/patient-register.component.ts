@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { PatientService } from '../../../../core/services/patient.service';
 import { CommonModule } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../../../core/services/auth.service';
+import { SidebarComponent } from '../../../../layout/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-patient-register',
   templateUrl: './patient-register.component.html',
   styleUrls: ['./patient-register.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, SidebarComponent]
 })
 export class PatientRegisterComponent implements OnInit {
+  @ViewChild('fileInput') fileInput!: ElementRef;
+  
   registrationForm: FormGroup;
   isSubmitting = false;
   fieldErrors: { [key: string]: string } = {};
   errorMessage: string = '';
+  imagePreview: string | null = null;
 
   constructor(
     private fb: FormBuilder,
@@ -137,5 +141,34 @@ export class PatientRegisterComponent implements OnInit {
       }
     }
     return '';
+  }
+
+  triggerFileInput(): void {
+    this.fileInput.nativeElement.click();
+  }
+
+  onFileSelected(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (file) {
+      // Check if file is an image
+      if (!file.type.startsWith('image/')) {
+        this.toastr.error('Please select an image file');
+        return;
+      }
+
+      // Check file size (max 5MB)
+      if (file.size > 5 * 1024 * 1024) {
+        this.toastr.error('Image size should not exceed 5MB');
+        return;
+      }
+
+      // Create preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+        this.registrationForm.patchValue({ img: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
   }
 }

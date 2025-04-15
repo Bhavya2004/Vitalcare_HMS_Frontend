@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../core/services/auth.service';
 import { SIDEBAR_LINKS } from './sidebar-links';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -17,7 +17,10 @@ export class SidebarComponent implements OnInit {
   section: any;
   link: any;
 
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {
     console.log('SidebarComponent initialized');
   }
 
@@ -32,5 +35,11 @@ export class SidebarComponent implements OnInit {
     const hasAccess = access.includes(this.role);
     console.log(`Checking access for role ${this.role} against ${access.join(', ')}: ${hasAccess}`);
     return hasAccess;
+  }
+
+  // Logout method
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/auth/login']);
   }
 }

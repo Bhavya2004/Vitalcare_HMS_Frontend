@@ -1,368 +1,453 @@
-<div class="min-h-screen bg-gray-50">
-  <div class="container mx-auto px-4 py-8">
-    <div class="max-w-4xl mx-auto">
-      <!-- Header -->
-      <div class="text-center mb-8">
-        <h1 class="text-3xl font-bold text-gray-900">Patient Registration</h1>
-        <p class="text-gray-600 mt-2">Please provide all the information below to help us understand better and provide good and quality service to you.</p>
-      </div>
+<!-- Main Layout Container -->
+<div class="flex h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
 
-      <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="space-y-8">
-        <!-- Personal Information -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-xl font-semibold text-gray-900 mb-6">Personal Information</h2>
-          
-          <!-- Profile Image Upload -->
-          <div class="mb-6">
-            <label class="block text-sm font-medium text-gray-700">Upload Photo</label>
-            <div class="mt-2 flex items-center space-x-4">
-              <span class="inline-block h-16 w-16 rounded-full overflow-hidden bg-gray-100">
-                <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              </span>
-              <button type="button" class="px-4 py-2 bg-white border border-gray-300 rounded-md font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                Change Photo
-              </button>
-            </div>
-          </div>
+  <!-- Right Side Content -->
+  <div class="flex-1 flex flex-col">
+    <!-- Route Header -->
+    <div class="bg-white border-b border-gray-200 px-8 py-4">
+      <h1 class="text-xl font-semibold text-gray-900">Registration</h1>
+    </div>
 
-          <!-- Name Fields -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <div>
-              <label for="first_name" class="block text-sm font-medium text-gray-700">First Name</label>
-          <input
-            type="text"
-                id="first_name"
-                formControlName="first_name"
-                [class.border-red-500]="hasError('first_name')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              <div *ngIf="hasError('first_name')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('first_name') }}
-              </div>
-        </div>
-  
-        <div>
-              <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name</label>
-          <input
-            type="text"
-                id="last_name"
-                formControlName="last_name"
-                [class.border-red-500]="hasError('last_name')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              <div *ngIf="hasError('last_name')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('last_name') }}
-              </div>
-            </div>
-          </div>
-
-          <!-- Gender and Date of Birth -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <div>
-              <label for="gender" class="block text-sm font-medium text-gray-700">Gender</label>
-              <select
-                id="gender"
-                formControlName="gender"
-                [class.border-red-500]="hasError('gender')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="">Select gender</option>
-                <option value="MALE">Male</option>
-                <option value="FEMALE">Female</option>
-                <option value="OTHER">Other</option>
-              </select>
-              <div *ngIf="hasError('gender')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('gender') }}
-              </div>
-            </div>
-
-            <div>
-              <label for="date_of_birth" class="block text-sm font-medium text-gray-700">Date of Birth</label>
-              <input
-                type="date"
-                id="date_of_birth"
-                formControlName="date_of_birth"
-                [class.border-red-500]="hasError('date_of_birth')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              <div *ngIf="hasError('date_of_birth')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('date_of_birth') }}
-              </div>
-            </div>
-          </div>
-
-          <!-- Contact Information -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <div>
-              <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number</label>
-              <input
-                type="tel"
-                id="phone"
-                formControlName="phone"
-                [class.border-red-500]="hasError('phone')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              <div *ngIf="hasError('phone')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('phone') }}
-              </div>
-            </div>
-
-            <div>
-              <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-              <input
-                type="email"
-                id="email"
-                formControlName="email"
-                [class.border-red-500]="hasError('email')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              <div *ngIf="hasError('email')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('email') }}
-              </div>
-            </div>
-          </div>
-
-          <!-- Address and Marital Status -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <div>
-              <label for="address" class="block text-sm font-medium text-gray-700">Address</label>
-              <textarea
-                id="address"
-                formControlName="address"
-                rows="3"
-                [class.border-red-500]="hasError('address')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              ></textarea>
-              <div *ngIf="hasError('address')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('address') }}
-              </div>
-            </div>
-
-            <div>
-              <label for="marital_status" class="block text-sm font-medium text-gray-700">Marital Status</label>
-              <select
-                id="marital_status"
-                formControlName="marital_status"
-                [class.border-red-500]="hasError('marital_status')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="">Select marital status</option>
-                <option value="SINGLE">Single</option>
-                <option value="MARRIED">Married</option>
-                <option value="DIVORCED">Divorced</option>
-                <option value="WIDOWED">Widowed</option>
-              </select>
-              <div *ngIf="hasError('marital_status')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('marital_status') }}
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <!-- Emergency Contact -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-xl font-semibold text-gray-900 mb-6">Emergency Contact</h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="emergency_contact_name" class="block text-sm font-medium text-gray-700">Contact Name</label>
-              <input
-                type="text"
-                id="emergency_contact_name"
-                formControlName="emergency_contact_name"
-                [class.border-red-500]="hasError('emergency_contact_name')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              <div *ngIf="hasError('emergency_contact_name')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('emergency_contact_name') }}
-              </div>
-            </div>
-
-            <div>
-              <label for="emergency_contact_number" class="block text-sm font-medium text-gray-700">Contact Number</label>
-              <input
-                type="tel"
-                id="emergency_contact_number"
-                formControlName="emergency_contact_number"
-                [class.border-red-500]="hasError('emergency_contact_number')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-              <div *ngIf="hasError('emergency_contact_number')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('emergency_contact_number') }}
-              </div>
-            </div>
-
-        <div>
-              <label for="relation" class="block text-sm font-medium text-gray-700">Relation</label>
-              <select
-                id="relation"
-                formControlName="relation"
-                [class.border-red-500]="hasError('relation')"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              >
-                <option value="">Select relation</option>
-                <option value="SPOUSE">Spouse</option>
-                <option value="PARENT">Parent</option>
-                <option value="CHILD">Child</option>
-                <option value="SIBLING">Sibling</option>
-                <option value="OTHER">Other</option>
-              </select>
-              <div *ngIf="hasError('relation')" class="mt-1 text-sm text-red-500">
-                {{ getErrorMessage('relation') }}
-              </div>
-            </div>
-          </div>
+    <!-- Main Content Area -->
+    <div class="flex-1 overflow-y-auto">
+      <div class="container mx-auto px-8 py-6 max-w-5xl">
+        <!-- Form Header -->
+        <div class="mb-6">
+          <p class="text-sm text-gray-600">Please provide all the information below to help us understand better and provide good and quality service to you.</p>
         </div>
 
-        <!-- Medical Information -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-xl font-semibold text-gray-900 mb-6">Medical Information</h2>
-          
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <label for="blood_group" class="block text-sm font-medium text-gray-700">Blood Group</label>
-              <input
-                type="text"
-                id="blood_group"
-                formControlName="blood_group"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
+        <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="space-y-6">
+          <!-- Personal Information -->
+          <div class="bg-white rounded-lg shadow-sm p-6 backdrop-blur-sm transition duration-300 hover:shadow-md">
+            <h2 class="text-lg font-medium text-gray-900 mb-6">Personal Information</h2>
+            
+            <!-- Profile Image Upload -->
+            <div class="mb-8">
+              <div class="flex items-center space-x-4">
+                <div class="relative">
+                  <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden group">
+                    <img *ngIf="imagePreview" [src]="imagePreview" class="w-full h-full object-cover" alt="Profile preview">
+                    <span *ngIf="!imagePreview" class="material-icons text-4xl text-gray-400 group-hover:scale-110 transition-transform">person</span>
+                  </div>
+                  <button type="button" 
+                          (click)="triggerFileInput()" 
+                          class="absolute bottom-0 right-0 bg-blue-600 text-white rounded-full p-2 shadow-lg hover:bg-blue-700 transition-all duration-300 hover:scale-110">
+                    <span class="material-icons text-sm">photo_camera</span>
+                  </button>
+                  <input #fileInput 
+                         type="file" 
+                         (change)="onFileSelected($event)" 
+                         accept="image/*" 
+                         class="hidden">
+                </div>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900">Profile Photo</h4>
+                  <p class="text-xs text-gray-500">Upload a profile photo for identification</p>
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label for="allergies" class="block text-sm font-medium text-gray-700">Allergies</label>
-              <textarea
-                id="allergies"
-                formControlName="allergies"
-                rows="2"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                placeholder="List any allergies..."
-              ></textarea>
+            <!-- Name Fields -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="relative group">
+                <label for="first_name" class="block text-sm font-medium text-gray-700 mb-1">First Name</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  person
+                </span>
+                <input type="text"
+                       id="first_name"
+                       formControlName="first_name"
+                       [class.border-red-500]="hasError('first_name')"
+                       class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                       placeholder="Enter your first name"/>
+                <div *ngIf="hasError('first_name')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('first_name') }}
+                </div>
+              </div>
+
+              <div class="relative group">
+                <label for="last_name" class="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  person_outline
+                </span>
+                <input type="text"
+                       id="last_name"
+                       formControlName="last_name"
+                       [class.border-red-500]="hasError('last_name')"
+                       class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                       placeholder="Enter your last name"/>
+                <div *ngIf="hasError('last_name')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('last_name') }}
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label for="medical_conditions" class="block text-sm font-medium text-gray-700">Medical Conditions</label>
-              <textarea
-                id="medical_conditions"
-                formControlName="medical_conditions"
-                rows="2"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                placeholder="List any current medical conditions..."
-              ></textarea>
+            <!-- Gender and Date of Birth -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div class="relative group">
+                <label for="gender" class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  wc
+                </span>
+                <select
+                  id="gender"
+                  formControlName="gender"
+                  [class.border-red-500]="hasError('gender')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                >
+                  <option value="">Select gender</option>
+                  <option value="MALE">Male</option>
+                  <option value="FEMALE">Female</option>
+                  <option value="OTHER">Other</option>
+                </select>
+                <div *ngIf="hasError('gender')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('gender') }}
+                </div>
+              </div>
+
+              <div class="relative group">
+                <label for="date_of_birth" class="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  cake
+                </span>
+                <input
+                  type="date"
+                  id="date_of_birth"
+                  formControlName="date_of_birth"
+                  [class.border-red-500]="hasError('date_of_birth')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                />
+                <div *ngIf="hasError('date_of_birth')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('date_of_birth') }}
+                </div>
+              </div>
             </div>
 
-            <div>
-              <label for="medical_history" class="block text-sm font-medium text-gray-700">Medical History</label>
-              <textarea
-                id="medical_history"
-                formControlName="medical_history"
-                rows="2"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-                placeholder="Brief medical history..."
-              ></textarea>
+            <!-- Contact Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div class="relative group">
+                <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  phone
+                </span>
+                <input
+                  type="tel"
+                  id="phone"
+                  formControlName="phone"
+                  [class.border-red-500]="hasError('phone')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Enter your phone number"
+                />
+                <div *ngIf="hasError('phone')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('phone') }}
+                </div>
+              </div>
+
+              <div class="relative group">
+                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  email
+                </span>
+                <input
+                  type="email"
+                  id="email"
+                  formControlName="email"
+                  [class.border-red-500]="hasError('email')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Enter your email"
+                />
+                <div *ngIf="hasError('email')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('email') }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Address and Marital Status -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+              <div class="relative group">
+                <label for="address" class="block text-sm font-medium text-gray-700 mb-1">Address</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  home
+                </span>
+                <textarea
+                  id="address"
+                  formControlName="address"
+                  rows="3"
+                  [class.border-red-500]="hasError('address')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Enter your address"
+                ></textarea>
+                <div *ngIf="hasError('address')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('address') }}
+                </div>
+              </div>
+
+              <div class="relative group">
+                <label for="marital_status" class="block text-sm font-medium text-gray-700 mb-1">Marital Status</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  favorite
+                </span>
+                <select
+                  id="marital_status"
+                  formControlName="marital_status"
+                  [class.border-red-500]="hasError('marital_status')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                >
+                  <option value="">Select marital status</option>
+                  <option value="SINGLE">Single</option>
+                  <option value="MARRIED">Married</option>
+                  <option value="DIVORCED">Divorced</option>
+                  <option value="WIDOWED">Widowed</option>
+                </select>
+                <div *ngIf="hasError('marital_status')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('marital_status') }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Emergency Contact -->
+          <div class="bg-white rounded-lg shadow-sm p-6 backdrop-blur-sm transition duration-300 hover:shadow-md">
+            <h2 class="text-lg font-medium text-gray-900 mb-6">Emergency Contact</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="relative group">
+                <label for="emergency_contact_name" class="block text-sm font-medium text-gray-700 mb-1">Contact Name</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  person
+                </span>
+                <input
+                  type="text"
+                  id="emergency_contact_name"
+                  formControlName="emergency_contact_name"
+                  [class.border-red-500]="hasError('emergency_contact_name')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Enter contact name"
+                />
+                <div *ngIf="hasError('emergency_contact_name')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('emergency_contact_name') }}
+                </div>
+              </div>
+
+              <div class="relative group">
+                <label for="emergency_contact_number" class="block text-sm font-medium text-gray-700 mb-1">Contact Number</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  phone
+                </span>
+                <input
+                  type="tel"
+                  id="emergency_contact_number"
+                  formControlName="emergency_contact_number"
+                  [class.border-red-500]="hasError('emergency_contact_number')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Enter contact number"
+                />
+                <div *ngIf="hasError('emergency_contact_number')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('emergency_contact_number') }}
+                </div>
+              </div>
+
+              <div class="relative group">
+                <label for="relation" class="block text-sm font-medium text-gray-700 mb-1">Relation</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  favorite
+                </span>
+                <select
+                  id="relation"
+                  formControlName="relation"
+                  [class.border-red-500]="hasError('relation')"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                >
+                  <option value="">Select relation</option>
+                  <option value="SPOUSE">Spouse</option>
+                  <option value="PARENT">Parent</option>
+                  <option value="CHILD">Child</option>
+                  <option value="SIBLING">Sibling</option>
+                  <option value="OTHER">Other</option>
+                </select>
+                <div *ngIf="hasError('relation')" class="mt-1 text-sm text-red-500">
+                  {{ getErrorMessage('relation') }}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Medical Information -->
+          <div class="bg-white rounded-lg shadow-sm p-6 backdrop-blur-sm transition duration-300 hover:shadow-md">
+            <h2 class="text-lg font-medium text-gray-900 mb-6">Medical Information</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="relative group">
+                <label for="blood_group" class="block text-sm font-medium text-gray-700 mb-1">Blood Group</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  favorite
+                </span>
+                <input
+                  type="text"
+                  id="blood_group"
+                  formControlName="blood_group"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Enter blood group"
+                />
+              </div>
+
+              <div class="relative group">
+                <label for="allergies" class="block text-sm font-medium text-gray-700 mb-1">Allergies</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  allergies
+                </span>
+                <textarea
+                  id="allergies"
+                  formControlName="allergies"
+                  rows="2"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="List any allergies..."
+                ></textarea>
+              </div>
+
+              <div class="relative group">
+                <label for="medical_conditions" class="block text-sm font-medium text-gray-700 mb-1">Medical Conditions</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  medical_services
+                </span>
+                <textarea
+                  id="medical_conditions"
+                  formControlName="medical_conditions"
+                  rows="2"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="List any current medical conditions..."
+                ></textarea>
+              </div>
+
+              <div class="relative group">
+                <label for="medical_history" class="block text-sm font-medium text-gray-700 mb-1">Medical History</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  history
+                </span>
+                <textarea
+                  id="medical_history"
+                  formControlName="medical_history"
+                  rows="2"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Brief medical history..."
+                ></textarea>
+              </div>
             </div>
           </div>
 
           <!-- Insurance Information -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-            <div>
-              <label for="insurance_provider" class="block text-sm font-medium text-gray-700">Insurance Provider</label>
-              <input
-                type="text"
-                id="insurance_provider"
-                formControlName="insurance_provider"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
-
-        <div>
-              <label for="insurance_number" class="block text-sm font-medium text-gray-700">Insurance Number</label>
-              <input
-                type="text"
-                id="insurance_number"
-                formControlName="insurance_number"
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Consent Section -->
-        <div class="bg-white p-6 rounded-lg shadow-md">
-          <h2 class="text-xl font-semibold text-gray-900 mb-6">Required Consents</h2>
-          
-          <div class="space-y-4">
-            <div class="flex items-start">
-              <div class="flex items-center h-5">
+          <div class="bg-white rounded-lg shadow-sm p-6 backdrop-blur-sm transition duration-300 hover:shadow-md">
+            <h2 class="text-lg font-medium text-gray-900 mb-6">Insurance Information</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="relative group">
+                <label for="insurance_provider" class="block text-sm font-medium text-gray-700 mb-1">Insurance Provider</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  insurance
+                </span>
                 <input
-                  type="checkbox"
-                  id="privacy_consent"
-                  formControlName="privacy_consent"
-                  class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  type="text"
+                  id="insurance_provider"
+                  formControlName="insurance_provider"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Enter insurance provider"
                 />
               </div>
-              <div class="ml-3">
-                <label for="privacy_consent" class="font-medium text-gray-700">Privacy Policy Agreement</label>
-                <p class="text-gray-500 text-sm">I consent to the collection, storage, and use of my personal and health information as outlined in the Privacy Policy.</p>
-              </div>
-            </div>
 
-            <div class="flex items-start">
-              <div class="flex items-center h-5">
+              <div class="relative group">
+                <label for="insurance_number" class="block text-sm font-medium text-gray-700 mb-1">Insurance Number</label>
+                <span class="material-icons absolute left-3 top-[38px] -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors duration-200">
+                  insurance
+                </span>
                 <input
-                  type="checkbox"
-                  id="service_consent"
-                  formControlName="service_consent"
-                  class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  type="text"
+                  id="insurance_number"
+                  formControlName="insurance_number"
+                  class="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition duration-200 bg-white/50"
+                  placeholder="Enter insurance number"
                 />
-              </div>
-              <div class="ml-3">
-                <label for="service_consent" class="font-medium text-gray-700">Terms of Service Agreement</label>
-                <p class="text-gray-500 text-sm">I agree to the Terms of Service and understand my responsibilities as a user of this healthcare system.</p>
-              </div>
-            </div>
-
-            <div class="flex items-start">
-              <div class="flex items-center h-5">
-                <input
-                  type="checkbox"
-                  id="medical_consent"
-                  formControlName="medical_consent"
-                  class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-              </div>
-              <div class="ml-3">
-                <label for="medical_consent" class="font-medium text-gray-700">Medical Treatment Consent</label>
-                <p class="text-gray-500 text-sm">I provide informed consent to receive medical treatment and services through this healthcare system.</p>
               </div>
             </div>
           </div>
-        </div>
-  
-        <!-- Error Message -->
-        <div *ngIf="errorMessage" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded relative" role="alert">
-          <span class="block sm:inline">{{ errorMessage }}</span>
-        </div>
-  
-        <!-- Submit Button -->
-        <div class="flex justify-end">
-        <button
-          type="submit"
-            [disabled]="isSubmitting || !registrationForm.valid"
-            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-          >
-            <span *ngIf="isSubmitting" class="mr-2">
-              <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-              </svg>
-            </span>
-            {{ isSubmitting ? 'Submitting...' : 'Complete Registration' }}
-        </button>
-        </div>
-      </form>
-    </div>
+
+          <!-- Consent Section -->
+          <div class="bg-white rounded-lg shadow-sm p-6 backdrop-blur-sm transition duration-300 hover:shadow-md">
+            <h2 class="text-lg font-medium text-gray-900 mb-6">Required Consents</h2>
+            
+            <div class="space-y-4">
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input
+                    type="checkbox"
+                    id="privacy_consent"
+                    formControlName="privacy_consent"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                </div>
+                <div class="ml-3">
+                  <label for="privacy_consent" class="font-medium text-gray-700">Privacy Policy Agreement</label>
+                  <p class="text-gray-500 text-sm">I consent to the collection, storage, and use of my personal and health information as outlined in the Privacy Policy.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input
+                    type="checkbox"
+                    id="service_consent"
+                    formControlName="service_consent"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                </div>
+                <div class="ml-3">
+                  <label for="service_consent" class="font-medium text-gray-700">Terms of Service Agreement</label>
+                  <p class="text-gray-500 text-sm">I agree to the Terms of Service and understand my responsibilities as a user of this healthcare system.</p>
+                </div>
+              </div>
+
+              <div class="flex items-start">
+                <div class="flex items-center h-5">
+                  <input
+                    type="checkbox"
+                    id="medical_consent"
+                    formControlName="medical_consent"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  />
+                </div>
+                <div class="ml-3">
+                  <label for="medical_consent" class="font-medium text-gray-700">Medical Treatment Consent</label>
+                  <p class="text-gray-500 text-sm">I provide informed consent to receive medical treatment and services through this healthcare system.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Error Message -->
+          <div *ngIf="errorMessage" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg" role="alert">
+            <span class="block sm:inline">{{ errorMessage }}</span>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="flex justify-end">
+            <button
+              type="submit"
+              [disabled]="isSubmitting || !registrationForm.valid"
+              class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 hover:shadow-lg"
+            >
+              <span *ngIf="isSubmitting" class="mr-2">
+                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                  <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+              </span>
+              <span class="material-icons mr-2">how_to_reg</span>
+              {{ isSubmitting ? 'Submitting...' : 'Complete Registration' }}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+</div>
