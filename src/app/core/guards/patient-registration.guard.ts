@@ -6,9 +6,12 @@ import { Observable, map, catchError, of } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PatientRegistrationGuard implements CanActivate {
+  private readonly registrationRoute = '/patient/register';
+  private readonly dashboardRoute = '/dashboard';
+
   constructor(
     private authService: AuthService,
     private patientService: PatientService,
@@ -16,40 +19,57 @@ export class PatientRegistrationGuard implements CanActivate {
     private toastr: ToastrService
   ) {}
 
+  /**
+   * Determines whether a route can be activated based on the patient's registration status.
+   * 
+   * @param route - The activated route snapshot containing route information.
+   * @returns An observable that emits `true` if the route can be activated, or `false` otherwise.
+   */
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
-    // Only check registration for patients
+    // Bypass this registration logic for non-patient roles
     if (this.authService.getRole() !== 'PATIENT') {
       return of(true);
     }
 
     return this.patientService.checkPatientRegistration().pipe(
-      map(isRegistered => {
-        const isRegistrationRoute = route.routeConfig?.path === 'patient/register';
-        
-        if (!isRegistered && !isRegistrationRoute) {
-          // If not registered and trying to access any route other than registration,
-          // redirect to registration
-          this.router.navigate(['/patient/register']);
-          return false;
-        }
-        
-        if (isRegistered && isRegistrationRoute) {
-          // If already registered and trying to access registration page,
-          // redirect to dashboard
-          this.router.navigate(['/dashboard']);
-          return false;
-        }
-        
-        // Allow access in all other cases
-        return true;
-      }),
-      catchError((error) => {
-        console.error('Error checking patient registration:', error);
-        this.toastr.error('Unable to check registration status. Please try again later.');
-      // Redirect to registration page on error
-      this.router.navigate(['/patient/register']);
-      return of(false);
-      })
+      map((isRegistered) => this.handleRouteActivation(isRegistered, route)),
+      catchError((error) => this.handleError(error))
     );
   }
-} 
+
+  /**
+   * Handles route activation logic based on the patient's registration status.
+   * 
+   * @param isRegistered - Whether the patient is registered.
+   * @param route - The activated route snapshot.
+   * @returns `true` if the route can be activated, `false` otherwise.
+   */
+  private handleRouteActivation(isRegistered: boolean, route: ActivatedRouteSnapshot): boolean {
+    const isRegistrationRoute = route.routeConfig?.path === 'patient/register';
+
+    if (!isRegistered && !isRegistrationRoute) {
+      this.router.navigate([this.registrationRoute]);
+      return false;
+    }
+
+    if (isRegistered && isRegistrationRoute) {
+      this.router.navigate([this.dashboardRoute]);
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Handles errors that occur during the registration status check.
+   * 
+   * @param error - The error object.
+   * @returns An observable that emits `false`.
+   */
+  private handleError(error: any): Observable<boolean> {
+    console.error('Error checking patient registration:', error);
+    this.toastr.error('Unable to check registration status. Please try again later.');
+    this.router.navigate([this.registrationRoute]);
+    return of(false);
+  }
+}

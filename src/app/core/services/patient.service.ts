@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 export interface PatientRegistrationData {
   first_name: string;
@@ -31,45 +32,82 @@ export interface PatientRegistrationData {
   providedIn: 'root',
 })
 export class PatientService {
-  private apiUrl = 'http://localhost:3000/patient';
+  private readonly apiUrl = 'http://localhost:3000/patient'; 
 
   constructor(private http: HttpClient) {}
 
-  // method to get headers with authorization token
+  /**
+   * Gets the authorization headers with the token from localStorage.
+   * 
+   * @returns An instance of HttpHeaders with the Authorization header.
+   */
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
   }
 
+  /**
+   * Registers a new patient with the provided data and optional image file.
+   * 
+   * @param patientData - The patient's registration data.
+   * @param imageFile - An optional image file for the patient's profile.
+   * @returns An observable of the registration response.
+   */
   registerPatient(patientData: PatientRegistrationData, imageFile?: File): Observable<any> {
-    // Create FormData object to send multipart/form-data
-    const formData = new FormData();
-    
-    // Add all patient data fields to FormData
-    Object.keys(patientData).forEach(key => {
-      if (patientData[key as keyof PatientRegistrationData] !== undefined) {
-        formData.append(key, patientData[key as keyof PatientRegistrationData] as string);
-      }
-    });
-    
-    // Add image file if provided
-    if (imageFile) {
-      formData.append('img', imageFile);
-    }
-    
-    // Send FormData with appropriate headers
-    return this.http.post(`${this.apiUrl}/register`, formData, { 
-      headers: this.getAuthHeaders()
-    });
+    const formData = this.createFormData(patientData, imageFile);
+
+    return this.http.post(`${this.apiUrl}/register`, formData, {
+      headers: this.getAuthHeaders(),
+    }).pipe(
+      catchError((error) => {
+        console.error('Patient registration failed:', error);
+        return of(null); // Return null in case of an error
+      })
+    );
   }
 
+  /**
+   * Checks if the patient is already registered.
+   * 
+   * @returns An observable that emits `true` if the patient is registered, `false` otherwise.
+   */
   checkPatientRegistration(): Observable<boolean> {
     return this.http.get<{ isRegistered: boolean }>(`${this.apiUrl}/check-registration`, {
       headers: this.getAuthHeaders(),
     }).pipe(
-      map(response => response.isRegistered) // Extract the `isRegistered` value from the response
+      map((response) => response.isRegistered),
+      catchError((error) => {
+        console.error('Error checking patient registration:', error);
+        return of(false); // Return false in case of an error
+      })
     );
+  }
+
+  /**
+   * Creates a FormData object from the provided patient data and optional image file.
+   * 
+   * @param patientData - The patient's registration data.
+   * @param imageFile - An optional image file for the patient's profile.
+   * @returns A FormData object containing the patient data and image file.
+   */
+  private createFormData(patientData: PatientRegistrationData, imageFile?: File): FormData {
+    const formData = new FormData();
+
+    // Add all patient data fields to FormData
+    Object.keys(patientData).forEach((key) => {
+      const value = patientData[key as keyof PatientRegistrationData];
+      if (value !== undefined) {
+        formData.append(key, value as string);
+      }
+    });
+
+    // Add image file if provided
+    if (imageFile) {
+      formData.append('img', imageFile);
+    }
+
+    return formData;
   }
 }
