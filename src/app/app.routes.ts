@@ -5,12 +5,23 @@ import { RegisterComponent } from './features/auth/register/register.component';
 import { HomeComponent } from './features/home/home.component';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { PatientRegisterComponent } from './features/patient/register/patient-register/patient-register.component';
+import { PatientRegistrationGuard } from './core/guards/patient-registration.guard';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, // Homepage
     { path: 'sign-in', component: LoginComponent }, // Login page
     { path: 'sign-up', component: RegisterComponent }, // Register page
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] }, // Dashboard page with auth guard
+    { 
+        path: 'patient/register', 
+        component: PatientRegisterComponent,
+        canActivate: [AuthGuard, PatientRegistrationGuard]
+    },
+    { 
+        path: 'dashboard', 
+        component: DashboardComponent, 
+        canActivate: [AuthGuard, PatientRegistrationGuard]
+    },
     { path: '**', redirectTo: '' } // Redirect invalid routes to home
 ];
 

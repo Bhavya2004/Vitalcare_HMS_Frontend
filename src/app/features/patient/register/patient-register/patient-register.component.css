@@ -1,0 +1,192 @@
+/* Main container styles */
+.flex-1 {
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+}
+
+/* Scrollbar styles */
+.flex-1::-webkit-scrollbar {
+  width: 6px;
+}
+
+.flex-1::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.flex-1::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 3px;
+}
+
+/* Modern animations and effects */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Apply animations to elements */
+form {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+.text-center {
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Form sections animation */
+.bg-white {
+  animation: scaleIn 0.5s ease-out forwards;
+}
+
+/* Staggered animation for sections */
+form > div:nth-child(1) { animation-delay: 0s; }
+form > div:nth-child(2) { animation-delay: 0.1s; }
+form > div:nth-child(3) { animation-delay: 0.2s; }
+form > div:nth-child(4) { animation-delay: 0.3s; }
+form > div:nth-child(5) { animation-delay: 0.4s; }
+
+/* Input field effects */
+input, select, textarea {
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+/* Material Icons styling */
+.material-icons {
+  font-size: 20px;
+  line-height: 1;
+  transition: all 0.3s ease;
+}
+
+.group:focus-within .material-icons {
+  color: #2563eb;
+  transform: translateY(-1px);
+}
+
+/* Profile image upload effects */
+.relative:hover button {
+  transform: scale(1.1);
+}
+
+/* Checkbox styles */
+input[type="checkbox"] {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #2563eb;
+  border-color: #2563eb;
+}
+
+/* Error message animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.text-red-500 {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* Submit button effects */
+button[type="submit"] {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+button[type="submit"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button[type="submit"]:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+button[type="submit"]:not(:disabled):hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Form section hover effects */
+.bg-white {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.bg-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Loading spinner animation */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Glass morphism effect */
+.backdrop-blur-sm {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+

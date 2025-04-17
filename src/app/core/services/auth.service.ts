@@ -22,8 +22,8 @@ interface RegisterRequest {
 })
 export class AuthService {
 
-  private baseUrl = 'http://localhost:3000/auth'; // Base URL for the authentication API
-  private isAuthenticated: boolean = false; // Flag to check if the user is authenticated
+  private baseUrl = 'http://localhost:3000/auth'; 
+  private isAuthenticated: boolean = false; 
   private role: string = ''; 
 
   constructor(private http:HttpClient) { 

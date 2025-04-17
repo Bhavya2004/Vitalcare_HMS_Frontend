@@ -6,6 +6,9 @@ import { AuthService } from '../services/auth.service';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
+
+  private readonly loginRoute = '/sign-in';
+
   constructor(private authService: AuthService, private router: Router) {}
 
   canActivate(): boolean {
@@ -14,7 +17,7 @@ export class AuthGuard implements CanActivate {
     }
     
     // Redirect to login page if not authenticated
-    this.router.navigate(['/sign-in']);
+    this.router.navigate([this.loginRoute]);
     return false;
   }
 } 

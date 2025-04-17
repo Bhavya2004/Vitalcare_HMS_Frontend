@@ -16,7 +16,7 @@ interface ValidationError {
   imports: [RouterLink, FormsModule, CommonModule],
   templateUrl: './register.component.html',
   standalone: true,
-  styleUrl: './register.component.css'
+  styleUrl: './register.component.css',
 })
 export class RegisterComponent {
   email: string = '';
@@ -27,14 +27,27 @@ export class RegisterComponent {
   fieldErrors: { [key: string]: string } = {};
   isSubmitting: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router,private toastr:ToastrService) {}
+  private readonly loginRoute = '/sign-in';
 
-  // Frontend validation
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
+
+  /**
+   * Validates the registration form.
+   * 
+   * @returns `true` if the form is valid, `false` otherwise.
+   */
   validateForm(): boolean {
+    // Clear previous error messages.
     this.fieldErrors = {};
+    this.errorMessage = '';
+
     let isValid = true;
 
-    // First name and last name are optional, but if provided, validate them
+    // First name and last name validation
     if (this.firstName && this.firstName.length < 2) {
       this.fieldErrors['firstName'] = 'First name must be at least 2 characters long';
       isValid = false;
@@ -45,7 +58,7 @@ export class RegisterComponent {
       isValid = false;
     }
 
-    // Email is required
+    // Email validation
     if (!this.email) {
       this.fieldErrors['email'] = 'Email is required';
       isValid = false;
@@ -54,7 +67,7 @@ export class RegisterComponent {
       isValid = false;
     }
 
-    // Password is required
+    // Password validation
     if (!this.password) {
       this.fieldErrors['password'] = 'Password is required';
       isValid = false;
@@ -66,48 +79,57 @@ export class RegisterComponent {
     return isValid;
   }
 
+  /**
+   * Handles the registration form submission.
+   */
   onSubmit(): void {
-    // Clear previous errors
-    this.errorMessage = '';
-    this.fieldErrors = {};
-
     if (!this.validateForm()) {
       return;
     }
-    
+
     this.isSubmitting = true;
-    
-    this.authService.register({
-      email: this.email,
-      password: this.password,
-      firstName: this.firstName || undefined,
-      lastName: this.lastName || undefined
-    }).subscribe({
-      next: (response) => {
-        this.isSubmitting = false;
 
-        this.toastr.success('Registration successful!', 'Welcome to VitalCare HMS');
+    this.authService
+      .register({
+        email: this.email,
+        password: this.password,
+        firstName: this.firstName || undefined,
+        lastName: this.lastName || undefined,
+      })
+      .subscribe({
+        next: () => this.handleRegistrationSuccess(),
+        error: (error) => this.handleRegistrationError(error),
+      });
+  }
 
-        // Redirect to the login page
-        this.router.navigate(['/sign-in']);
-      },
-      error: (error) => {
-        this.isSubmitting = false;
-        // Handle validation errors from Zod
-        if (error.error && error.error.errors) {
-          // Map validation errors to fields
-          error.error.errors.forEach((err: ValidationError) => {
-            if (err.field) {
-              this.fieldErrors[err.field] = err.message;
-            } else {
-              this.errorMessage = err.message;
-            }
-          });
+  /**
+   * Handles successful registration.
+   */
+  private handleRegistrationSuccess(): void {
+    this.isSubmitting = false;
+    this.toastr.success('Registration successful!', 'Welcome to VitalCare HMS');
+    this.router.navigate([this.loginRoute]);
+  }
+
+  /**
+   * Handles registration errors.
+   * 
+   * @param error - The error object.
+   */
+  private handleRegistrationError(error: any): void {
+    this.isSubmitting = false;
+
+    if (error.error && error.error.errors) {
+      // Map validation errors to fields
+      error.error.errors.forEach((err: ValidationError) => {
+        if (err.field) {
+          this.fieldErrors[err.field] = err.message;
         } else {
-          // Handle other types of errors
-          this.errorMessage = error.error?.message || 'An error occurred during registration';
+          this.errorMessage = err.message;
         }
-      },
-    });
+      });
+    } else {
+      this.errorMessage = error.error?.message || 'An error occurred during registration';
+    }
   }
 }

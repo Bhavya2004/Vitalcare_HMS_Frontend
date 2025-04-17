@@ -5,3 +5,113 @@
     background-color: #ffffff;
     padding: 1rem;
   }
+
+/* Sidebar Container */
+.sidebar-container {
+  width: 280px;
+  box-shadow: 1px 0 2px rgba(0, 0, 0, 0.05);
+  transition: width 0.3s ease;
+}
+
+/* Scrollbar Styling */
+.overflow-y-auto {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(203, 213, 225, 0.4) transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar {
+  width: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background-color: rgba(203, 213, 225, 0.4);
+  border-radius: 20px;
+}
+
+/* Material Icons styling */
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'liga';
+}
+
+/* Link Hover Effects */
+a.group {
+  position: relative;
+  overflow: hidden;
+}
+
+a.group::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  background-color: rgba(59, 130, 246, 0.08);
+  transition: width 0.3s ease;
+}
+
+a.group:hover::before {
+  width: 100%;
+}
+
+/* Active Link Styling */
+a.group.active {
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+a.group.active .material-icons,
+a.group.active span {
+  color: #3b82f6;
+}
+
+/* Section Label Animation */
+.section-label {
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.section-label:hover {
+  opacity: 1;
+}
+
+/* User Role Section Hover Effect */
+.user-role {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.user-role:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Logo Animation */
+@keyframes logoSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.logo-icon:hover {
+  animation: logoSpin 1s ease-in-out;
+}
