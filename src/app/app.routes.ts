@@ -7,6 +7,7 @@ import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { PatientRegisterComponent } from './features/patient/register/patient-register/patient-register.component';
 import { PatientRegistrationGuard } from './core/guards/patient-registration.guard';
+import { AppointmentsComponent } from './features/patient/appointments/appointments.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, // Homepage
@@ -21,6 +22,11 @@ export const routes: Routes = [
         path: 'dashboard', 
         component: DashboardComponent, 
         canActivate: [AuthGuard, PatientRegistrationGuard]
+    },
+    {
+        path:'appointments',
+        component: AppointmentsComponent,
+        canActivate: [AuthGuard]
     },
     { path: '**', redirectTo: '' } // Redirect invalid routes to home
 ];

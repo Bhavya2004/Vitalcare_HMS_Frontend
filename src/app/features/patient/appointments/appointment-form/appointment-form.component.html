@@ -1,0 +1,82 @@
+<!-- Backdrop -->
+<div 
+  class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 transition-opacity"
+  (click)="close.emit()">
+</div>
+
+<!-- Right Side Drawer -->
+<div class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-xl flex flex-col transition-transform duration-300 transform translate-x-0">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between p-6 border-b">
+    <div class="flex items-center space-x-4">
+      <div class="w-14 h-14 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 text-xl font-semibold">
+        {{ getInitials('Codewave Patient') }}
+      </div>
+      <div>
+        <h2 class="text-lg font-semibold text-gray-800">Codewave Patient</h2>
+        <p class="text-sm text-gray-500">FEMALE</p>
+      </div>
+    </div>
+    <button (click)="close.emit()" class="text-gray-400 hover:text-gray-600 text-2xl">
+      &times;
+    </button>
+  </div>
+
+  <!-- Form Body -->
+  <form class="flex-1 overflow-y-auto p-6 space-y-5">
+
+    <!-- Appointment Type -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Appointment Type</label>
+      <select [(ngModel)]="appointmentData.type" class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
+        <option value="" disabled>Select appointment type</option>
+        <option value="CONSULTATION">Consultation</option>
+        <option value="FOLLOW_UP">Follow-Up</option>
+        <option value="DIAGNOSTIC">Diagnostic</option>
+      </select>
+    </div>
+
+    <!-- Physician -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Physician</label>
+      <select [(ngModel)]="appointmentData.doctor_id" class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500">
+        <option value="" disabled>Select a physician</option>
+        <option *ngFor="let doctor of doctors" [value]="doctor.id">
+          Dr. {{ doctor.name }} - {{ doctor.specialization }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Date and Time -->
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+        <input type="date" [(ngModel)]="appointmentData.appointment_date" class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+        <input type="time" [(ngModel)]="appointmentData.time" class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500" />
+      </div>
+    </div>
+
+    <!-- Note -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Note</label>
+      <textarea [(ngModel)]="appointmentData.note" rows="3" placeholder="Additional note (optional)" class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:ring-blue-500 focus:border-blue-500"></textarea>
+    </div>
+
+  </form>
+
+  <!-- Footer -->
+  <div class="flex justify-end p-6 border-t">
+    <button
+      (click)="submitAppointment()"
+      [disabled]="isLoading"
+      class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium py-2 px-6 rounded-lg shadow focus:outline-none focus:ring-2 focus:ring-blue-500"
+    >
+      Submit
+    </button>
+  </div>
+
+</div>
