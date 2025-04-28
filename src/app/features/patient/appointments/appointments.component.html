@@ -44,8 +44,8 @@
               Book Appointment
             </button>
             <!-- Appointment Form Modal -->
-            <app-appointment-form *ngIf="isBookingModalOpen" (close)="closeBookingModal()"
-              (appointmentBooked)="onAppointmentBooked()"></app-appointment-form>
+            <app-appointment-form *ngIf="isBookingModalOpen" [patientName]="patientName" [patientGender]="patientGender"
+              (close)="closeBookingModal()" (appointmentBooked)="onAppointmentBooked()"></app-appointment-form>
           </div>
         </div>
 

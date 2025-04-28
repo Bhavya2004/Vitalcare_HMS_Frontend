@@ -21,6 +21,8 @@ export class AppointmentsComponent implements OnInit {
   isBookingModalOpen: boolean = false;
   selectedAppointment: Appointment | null = null;
   isLoading: boolean = true;
+  patientName: string = '';
+  patientGender: string = '';
 
   constructor(
     private appointmentService: AppointmentService,
@@ -29,6 +31,8 @@ export class AppointmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAppointments();
+    this.patientName = 'Vitalcare Patient';
+    this.patientGender='Male';
   }
 
   loadAppointments(): void {
@@ -77,6 +81,7 @@ export class AppointmentsComponent implements OnInit {
   onAppointmentBooked(): void {
     this.closeBookingModal();
     this.loadAppointments(); 
+    this.toastr.success('Appointment booked successfully!');
   }
 
   viewAppointment(appointment: Appointment): void {
