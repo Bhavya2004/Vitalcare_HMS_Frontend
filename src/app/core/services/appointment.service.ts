@@ -49,7 +49,7 @@ export interface ApiResponse<T> {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppointmentService {
   private apiUrl = `${environment.apiUrl}/patient/appointments`;
@@ -59,29 +59,41 @@ export class AppointmentService {
   private getAuthHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     return new HttpHeaders({
-      'Authorization': `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
     });
   }
 
   // Get all appointments for the logged-in patient
   getAppointments(): Observable<ApiResponse<Appointment[]>> {
     return this.http.get<ApiResponse<Appointment[]>>(this.apiUrl, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
   }
 
   // Get a specific appointment by ID
   getAppointmentById(id: number): Observable<ApiResponse<Appointment>> {
     return this.http.get<ApiResponse<Appointment>>(`${this.apiUrl}/${id}`, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
   }
 
   // Create a new appointment
-  createAppointment(data: CreateAppointmentData): Observable<ApiResponse<Appointment>> {
+  createAppointment(
+    data: CreateAppointmentData
+  ): Observable<ApiResponse<Appointment>> {
     return this.http.post<ApiResponse<Appointment>>(this.apiUrl, data, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
+  }
+
+  // Get the count of appointments for the logged-in patient
+  getAppointmentCount(): Observable<ApiResponse<{ count: number }>> {
+    return this.http.get<ApiResponse<{ count: number }>>(
+      `${this.apiUrl}/count`,
+      {
+        headers: this.getAuthHeaders(),
+      }
+    );
   }
 
   // Update appointment status
@@ -99,7 +111,7 @@ export class AppointmentService {
 
   getDoctors(): Observable<ApiResponse<Doctor[]>> {
     return this.http.get<ApiResponse<Doctor[]>>(`${this.apiUrl}/doctors`, {
-      headers: this.getAuthHeaders()
+      headers: this.getAuthHeaders(),
     });
   }
 } 
