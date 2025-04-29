@@ -44,7 +44,7 @@
               Book Appointment
             </button>
             <!-- Appointment Form Modal -->
-            <app-appointment-form *ngIf="isBookingModalOpen" [patientName]="patientName" [patientGender]="patientGender"
+            <app-appointment-form *ngIf="isBookingModalOpen" [patientFirstName]="patientFirstName" [patientLastName]="patientLastName" [patientGender]="patientGender"
               (close)="closeBookingModal()" (appointmentBooked)="onAppointmentBooked()"></app-appointment-form>
           </div>
         </div>
@@ -112,7 +112,7 @@
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                   <div class="flex justify-end items-center space-x-2">
                     <button
-                      (click)="viewAppointment(appointment)"
+                      (click)="viewAppointment(appointment.id)"
                       class="text-blue-600 hover:text-blue-900 font-medium"
                     >
                       View
@@ -142,73 +142,8 @@
 </div>
 
 <!-- View Appointment Modal -->
-<div *ngIf="selectedAppointment" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
-  <div class="relative top-20 mx-auto p-5 border w-full max-w-2xl shadow-lg rounded-lg bg-white">
-    <div class="flex justify-between items-center pb-3">
-      <h3 class="text-xl font-semibold text-gray-900">Appointment Details</h3>
-      <button
-        (click)="closeViewModal()"
-        class="text-gray-400 hover:text-gray-500 focus:outline-none"
-      >
-        <i class="material-icons">close</i>
-      </button>
-    </div>
-
-    <div class="space-y-6">
-      <!-- Doctor Information -->
-      <div class="bg-blue-50 p-4 rounded-lg">
-        <h4 class="text-sm font-medium text-blue-800 mb-4">Doctor Information</h4>
-        <div class="flex items-center">
-          <div class="h-16 w-16 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
-            <i class="material-icons text-3xl">person</i>
-          </div>
-          <div class="ml-4">
-            <div class="text-lg font-semibold text-gray-900">
-              Dr. {{ selectedAppointment.doctor.name }}
-            </div>
-            <div class="text-sm text-gray-600">{{ selectedAppointment.doctor.specialization }}</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Appointment Information -->
-      <div class="bg-gray-50 p-4 rounded-lg">
-        <h4 class="text-sm font-medium text-gray-800 mb-4">Appointment Information</h4>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <div class="text-sm text-gray-500">Date</div>
-            <div class="text-base font-medium text-gray-900">
-              {{ formatDate(selectedAppointment.appointment_date) }}
-            </div>
-          </div>
-          <div>
-            <div class="text-sm text-gray-500">Time</div>
-            <div class="text-base font-medium text-gray-900">
-              {{ formatTime(selectedAppointment.time) }}
-            </div>
-          </div>
-          <div>
-            <div class="text-sm text-gray-500">Status</div>
-            <div>
-              <span [class]="'px-2 inline-flex text-xs leading-5 font-semibold rounded-full ' + getStatusColor(selectedAppointment.status)">
-                {{ selectedAppointment.status }}
-              </span>
-            </div>
-          </div>
-          <div>
-            <div class="text-sm text-gray-500">Type</div>
-            <div class="text-base font-medium text-gray-900">
-              {{ selectedAppointment.type }}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Note -->
-      <div *ngIf="selectedAppointment.note" class="bg-gray-50 p-4 rounded-lg">
-        <h4 class="text-sm font-medium text-gray-800 mb-2">Note</h4>
-        <p class="text-gray-600">{{ selectedAppointment.note }}</p>
-      </div>
-    </div>
-  </div>
-</div>
+<app-appointment-detail
+  *ngIf="selectedAppointment"
+  [selectedAppointment]="selectedAppointment"
+  (close)="closeViewModal()"
+></app-appointment-detail>

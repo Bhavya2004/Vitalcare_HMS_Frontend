@@ -11,7 +11,8 @@ import { AppointmentService, Doctor } from '../../../../core/services/appointmen
   styleUrls: ['./appointment-form.component.css']
 })
 export class AppointmentFormComponent implements OnInit, OnChanges {
-  @Input({ required: true }) patientName = '';
+  @Input({ required: true }) patientFirstName = '';
+  @Input({ required: true }) patientLastName = '';
   @Input({ required: true }) patientGender = '';
 
   @Output() close = new EventEmitter<void>();
@@ -100,12 +101,13 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   }
 
   private setInitials() {
-    if (!this.patientName) {
+    if (!this.patientFirstName && !this.patientLastName) {
       this.initials = '';
       return;
     }
-    const names = this.patientName.split(' ');
-    this.initials = names.map(n => n[0]).join('').toUpperCase();
+    const firstInitial = this.patientFirstName ? this.patientFirstName[0].toUpperCase() : '';
+    const lastInitial = this.patientLastName ? this.patientLastName[0].toUpperCase() : '';
+    this.initials = `${firstInitial}${lastInitial}`;
   }
 
   private appointmentDateValidator(control: any) {

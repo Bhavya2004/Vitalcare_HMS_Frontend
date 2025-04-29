@@ -10,6 +10,15 @@ export interface Doctor {
   img?: string;
 }
 
+export interface Patient {
+  first_name: string;
+  last_name: string;
+  gender: string;
+  phone: string;
+  address: string;
+  date_of_birth: string;
+}
+
 export interface Appointment {
   id: number;
   patient_id: string;
@@ -21,6 +30,8 @@ export interface Appointment {
   note?: string;
   reason?: string;
   doctor: Doctor;
+  created_at: string;
+  patient: Patient;
 }
 
 export interface CreateAppointmentData {

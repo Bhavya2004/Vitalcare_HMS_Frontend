@@ -5,12 +5,14 @@ import { AppointmentService, Appointment } from '../../../core/services/appointm
 import { ToastrService } from 'ngx-toastr';
 import { SidebarComponent } from '../../../layout/sidebar/sidebar.component';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
+import { AuthService } from '../../../core/services/auth.service';
+import { AppointmentDetailComponent } from "./appointment-detail/appointment-detail.component";
 // import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
 
 @Component({
   selector: 'app-appointments',
   standalone: true,
-  imports: [CommonModule, FormsModule, SidebarComponent,AppointmentFormComponent],
+  imports: [CommonModule, FormsModule, SidebarComponent, AppointmentFormComponent, AppointmentDetailComponent],
   templateUrl: './appointments.component.html',
   styleUrls: ['./appointments.component.css']
 })
@@ -21,18 +23,25 @@ export class AppointmentsComponent implements OnInit {
   isBookingModalOpen: boolean = false;
   selectedAppointment: Appointment | null = null;
   isLoading: boolean = true;
-  patientName: string = '';
+  patientFirstName: string = '';
+  patientLastName: string = '';
   patientGender: string = '';
 
   constructor(
     private appointmentService: AppointmentService,
+    private authService : AuthService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.loadAppointments();
-    this.patientName = 'Vitalcare Patient';
-    this.patientGender='Male';
+    this.authService.getPatientDetails().subscribe((details)=>{
+      if(details){
+        this.patientFirstName = details.firstName;
+        this.patientLastName = details.lastName;
+        this.patientGender= details.gender;
+      }
+    })
   }
 
   loadAppointments(): void {
@@ -84,8 +93,17 @@ export class AppointmentsComponent implements OnInit {
     this.toastr.success('Appointment booked successfully!');
   }
 
-  viewAppointment(appointment: Appointment): void {
-    this.selectedAppointment = appointment;
+  viewAppointment(appointmentId: number): void {
+    this.appointmentService.getAppointmentById(appointmentId).subscribe({
+      next: (response) => {
+        console.log('Fetched Appointment:', response.data); // Debugging
+        this.selectedAppointment = response.data; // Assign the fetched data to selectedAppointment
+      },
+      error: (error) => {
+        console.error('Error fetching appointment:', error);
+        this.toastr.error('Failed to fetch appointment details');
+      }
+    });
   }
 
   closeViewModal(): void {
@@ -137,4 +155,9 @@ export class AppointmentsComponent implements OnInit {
         return 'bg-gray-100 text-gray-800';
     }
   }
+
+  getInitials(patient: any): string {
+    return (patient.first_name[0] + patient.last_name[0]).toUpperCase();
+  }
+  
 }
