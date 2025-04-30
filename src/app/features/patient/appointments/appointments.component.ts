@@ -20,28 +20,32 @@ export class AppointmentsComponent implements OnInit {
   appointments: Appointment[] = [];
   filteredAppointments: Appointment[] = [];
   searchTerm: string = '';
+  statusFilter: string = '';
   isBookingModalOpen: boolean = false;
   selectedAppointment: Appointment | null = null;
   isLoading: boolean = true;
   patientFirstName: string = '';
   patientLastName: string = '';
   patientGender: string = '';
+  activeActionMenu: number | null = null;
+  showCancelConfirmation: boolean = false;
+  appointmentToCancel: Appointment | null = null;
 
   constructor(
     private appointmentService: AppointmentService,
-    private authService : AuthService,
+    private authService: AuthService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     this.loadAppointments();
-    this.authService.getPatientDetails().subscribe((details)=>{
-      if(details){
+    this.authService.getPatientDetails().subscribe((details) => {
+      if (details) {
         this.patientFirstName = details.firstName;
         this.patientLastName = details.lastName;
-        this.patientGender= details.gender;
+        this.patientGender = details.gender;
       }
-    })
+    });
   }
 
   loadAppointments(): void {
@@ -61,22 +65,37 @@ export class AppointmentsComponent implements OnInit {
   }
 
   filterAppointments(): void {
-    if (!this.searchTerm) {
-      this.filteredAppointments = this.appointments;
-      return;
+    let filtered = this.appointments;
+
+    // Apply status filter
+    if (this.statusFilter) {
+      filtered = filtered.filter(appointment => appointment.status === this.statusFilter);
     }
 
-    const searchTermLower = this.searchTerm.toLowerCase();
-    this.filteredAppointments = this.appointments.filter(appointment => 
-      appointment.doctor.name.toLowerCase().includes(searchTermLower) ||
-      appointment.type.toLowerCase().includes(searchTermLower) ||
-      appointment.status.toLowerCase().includes(searchTermLower)
-    );
+    // Apply search filter
+    if (this.searchTerm) {
+      const searchTermLower = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(appointment => 
+        appointment.doctor.name.toLowerCase().includes(searchTermLower) ||
+        appointment.type.toLowerCase().includes(searchTermLower) ||
+        appointment.status.toLowerCase().includes(searchTermLower)
+      );
+    }
+
+    this.filteredAppointments = filtered;
   }
 
   onSearch(event: Event): void {
     this.searchTerm = (event.target as HTMLInputElement).value;
     this.filterAppointments();
+  }
+
+  toggleActionMenu(appointmentId: number): void {
+    this.activeActionMenu = this.activeActionMenu === appointmentId ? null : appointmentId;
+  }
+
+  closeActionMenu(): void {
+    this.activeActionMenu = null;
   }
 
   openBookingModal(): void {
@@ -89,15 +108,16 @@ export class AppointmentsComponent implements OnInit {
 
   onAppointmentBooked(): void {
     this.closeBookingModal();
-    this.loadAppointments(); 
+    this.loadAppointments();
     this.toastr.success('Appointment booked successfully!');
   }
 
   viewAppointment(appointmentId: number): void {
     this.appointmentService.getAppointmentById(appointmentId).subscribe({
       next: (response) => {
-        console.log('Fetched Appointment:', response.data); // Debugging
-        this.selectedAppointment = response.data; // Assign the fetched data to selectedAppointment
+        this.selectedAppointment = response.data;
+        this.closeActionMenu();
+        document.body.style.overflow = 'hidden';
       },
       error: (error) => {
         console.error('Error fetching appointment:', error);
@@ -108,14 +128,23 @@ export class AppointmentsComponent implements OnInit {
 
   closeViewModal(): void {
     this.selectedAppointment = null;
+    document.body.style.overflow = 'auto';
   }
 
   cancelAppointment(appointment: Appointment): void {
-    if (confirm('Are you sure you want to cancel this appointment?')) {
-      this.appointmentService.updateAppointmentStatus(appointment.id, 'CANCELLED').subscribe({
+    this.appointmentToCancel = appointment;
+    this.showCancelConfirmation = true;
+    this.closeActionMenu();
+    document.body.style.overflow = 'hidden';
+  }
+
+  confirmCancelAppointment(): void {
+    if (this.appointmentToCancel) {
+      this.appointmentService.updateAppointmentStatus(this.appointmentToCancel.id, 'CANCELLED').subscribe({
         next: () => {
           this.toastr.success('Appointment cancelled successfully');
           this.loadAppointments();
+          this.closeCancelConfirmation();
         },
         error: (error) => {
           console.error('Error cancelling appointment:', error);
@@ -123,6 +152,12 @@ export class AppointmentsComponent implements OnInit {
         }
       });
     }
+  }
+
+  closeCancelConfirmation(): void {
+    this.showCancelConfirmation = false;
+    this.appointmentToCancel = null;
+    document.body.style.overflow = 'auto';
   }
 
   formatDate(date: string): string {
@@ -159,5 +194,8 @@ export class AppointmentsComponent implements OnInit {
   getInitials(patient: any): string {
     return (patient.first_name[0] + patient.last_name[0]).toUpperCase();
   }
-  
+
+  getAppointmentCountByStatus(status: string): number {
+    return this.filteredAppointments.filter(appointment => appointment.status === status).length;
+  }
 }

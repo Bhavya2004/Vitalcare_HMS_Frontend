@@ -14,38 +14,71 @@
     <div class="flex-1 overflow-y-auto">
       <div class="container mx-auto px-8 py-6">
         <!-- Top Bar -->
-        <div class="flex justify-between items-center mb-6">
-          <!-- Left side -->
-          <div class="flex items-center space-x-2">
-            <span class="text-gray-500">
-              <span class="font-medium">{{ filteredAppointments.length }}</span> total appointments
-            </span>
-          </div>
-
-          <!-- Right side -->
-          <div class="flex items-center space-x-4">
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
-                <i class="material-icons text-gray-400">search</i>
-              </span>
-              <input
-                type="text"
-                [(ngModel)]="searchTerm"
-                (input)="onSearch($event)"
-                placeholder="Search..."
-                class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
-              />
+        <div class="bg-white rounded-lg shadow-sm p-4 mb-6">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <!-- Left side - Stats -->
+            <div class="flex items-center space-x-4">
+              <div class="bg-blue-50 px-4 py-2 rounded-lg">
+                <span class="text-sm text-gray-500">Total Appointments</span>
+                <p class="text-lg font-semibold text-blue-600">{{ filteredAppointments.length }}</p>
+              </div>
+              <div class="bg-green-50 px-4 py-2 rounded-lg">
+                <span class="text-sm text-gray-500">Scheduled</span>
+                <p class="text-lg font-semibold text-green-600">
+                  {{ getAppointmentCountByStatus('SCHEDULED') }}
+                </p>
+              </div>
+              <div class="bg-yellow-50 px-4 py-2 rounded-lg">
+                <span class="text-sm text-gray-500">Pending</span>
+                <p class="text-lg font-semibold text-yellow-600">
+                  {{ getAppointmentCountByStatus('PENDING') }}
+                </p>
+              </div>
             </div>
-            <button
-              (click)="openBookingModal()"
-              class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            >
-              <i class="material-icons mr-2">add</i>
-              Book Appointment
-            </button>
-            <!-- Appointment Form Modal -->
-            <app-appointment-form *ngIf="isBookingModalOpen" [patientFirstName]="patientFirstName" [patientLastName]="patientLastName" [patientGender]="patientGender"
-              (close)="closeBookingModal()" (appointmentBooked)="onAppointmentBooked()"></app-appointment-form>
+
+            <!-- Right side - Actions -->
+            <div class="flex items-center space-x-4">
+              <!-- Search -->
+              <div class="relative">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center">
+                  <i class="material-icons text-gray-400 text-lg">search</i>
+                </span>
+                <input
+                  type="text"
+                  [(ngModel)]="searchTerm"
+                  (input)="onSearch($event)"
+                  placeholder="Search appointments..."
+                  class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-64"
+                />
+              </div>
+
+              <!-- Filter Dropdown -->
+              <div class="relative">
+                <select
+                  [(ngModel)]="statusFilter"
+                  (change)="filterAppointments()"
+                  class="appearance-none pl-4 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white cursor-pointer hover:border-gray-400 transition-colors duration-200"
+                >
+                  <option value="">All Status</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="SCHEDULED">Scheduled</option>
+                  <option value="CANCELLED">Cancelled</option>
+                  <option value="COMPLETED">Completed</option>
+                </select>
+                <span class="absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none">
+                  <i class="material-icons text-gray-400 text-lg">expand_more</i>
+                </span>
+              </div>
+
+              <!-- Book Appointment Button -->
+              <button
+                (click)="openBookingModal()"
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+              >
+                <i class="material-icons mr-2">add</i>
+                Book Appointment
+              </button>
+            </div>
           </div>
         </div>
 
@@ -55,7 +88,7 @@
         </div>
 
         <!-- Table -->
-        <div *ngIf="!isLoading" class="bg-white rounded-lg shadow overflow-hidden">
+        <div *ngIf="!isLoading" class="bg-white rounded-lg shadow-sm overflow-hidden">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
@@ -110,20 +143,34 @@
                   </span>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                  <div class="flex justify-end items-center space-x-2">
+                  <div class="relative inline-block text-left">
                     <button
-                      (click)="viewAppointment(appointment.id)"
-                      class="text-blue-600 hover:text-blue-900 font-medium"
+                      (click)="toggleActionMenu(appointment.id)"
+                      class="inline-flex items-center text-gray-400 hover:text-gray-600 focus:outline-none"
                     >
-                      View
+                      <i class="material-icons">more_vert</i>
                     </button>
-                    <div class="relative" *ngIf="appointment.status === 'PENDING'">
-                      <button
-                        (click)="cancelAppointment(appointment)"
-                        class="text-red-600 hover:text-red-900 font-medium ml-4"
-                      >
-                        Cancel
-                      </button>
+                    <!-- Dropdown menu -->
+                    <div *ngIf="activeActionMenu === appointment.id"
+                         class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none z-10"
+                         [ngStyle]="{'bottom': 'auto', 'top': '100%'}">
+                      <div class="py-1">
+                        <button
+                          (click)="viewAppointment(appointment.id)"
+                          class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                        >
+                          <i class="material-icons mr-2 text-blue-600">visibility</i>
+                          View Details
+                        </button>
+                        <button
+                          *ngIf="appointment.status === 'PENDING'"
+                          (click)="cancelAppointment(appointment)"
+                          class="flex items-center w-full px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                        >
+                          <i class="material-icons mr-2">cancel</i>
+                          Cancel Appointment
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </td>
@@ -141,9 +188,73 @@
   </div>
 </div>
 
+<!-- Appointment Form Modal -->
+<app-appointment-form 
+  *ngIf="isBookingModalOpen" 
+  [patientFirstName]="patientFirstName" 
+  [patientLastName]="patientLastName" 
+  [patientGender]="patientGender"
+  (close)="closeBookingModal()" 
+  (appointmentBooked)="onAppointmentBooked()">
+</app-appointment-form>
+
 <!-- View Appointment Modal -->
 <app-appointment-detail
   *ngIf="selectedAppointment"
   [selectedAppointment]="selectedAppointment"
   (close)="closeViewModal()"
 ></app-appointment-detail>
+
+<!-- Confirmation Modal -->
+<div *ngIf="showCancelConfirmation" class="fixed inset-0 z-50 overflow-y-auto">
+  <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
+    <!-- Background overlay with blur -->
+    <div class="fixed inset-0 transition-opacity backdrop-enter" aria-hidden="true">
+      <div class="absolute inset-0 bg-gray-500 opacity-75 backdrop-blur-sm"></div>
+    </div>
+
+    <!-- Modal panel -->
+    <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full relative z-50 modal-enter">
+      <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+        <div class="sm:flex sm:items-start">
+          <div class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10">
+            <i class="material-icons text-red-600">warning</i>
+          </div>
+          <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
+              Cancel Appointment
+            </h3>
+            <div class="mt-2">
+              <p class="text-sm text-gray-500">
+                Are you sure you want to cancel this appointment? This action cannot be undone.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+        <button
+          type="button"
+          (click)="confirmCancelAppointment()"
+          class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Cancel Appointment
+        </button>
+        <button
+          type="button"
+          (click)="closeCancelConfirmation()"
+          class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+        >
+          Keep Appointment
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Click Outside Overlay -->
+<div 
+  *ngIf="activeActionMenu"
+  class="fixed inset-0 z-0"
+  (click)="closeActionMenu()">
+</div>
