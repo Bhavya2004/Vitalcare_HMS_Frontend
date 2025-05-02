@@ -1,0 +1,130 @@
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Form animations */
+.form-control {
+  transition: all 0.3s ease;
+}
+
+/* Input focus effects */
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
+}
+
+/* Contact info card animations */
+.bg-white {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.bg-white:nth-child(1) { animation-delay: 0.1s; }
+.bg-white:nth-child(2) { animation-delay: 0.2s; }
+.bg-white:nth-child(3) { animation-delay: 0.3s; }
+.bg-white:nth-child(4) { animation-delay: 0.4s; }
+
+/* Icon hover effects */
+.material-icons {
+  transition: all 0.3s ease;
+}
+
+.bg-white:hover .material-icons {
+  transform: scale(1.1);
+  color: #2563eb;
+}
+
+/* Card hover effects */
+.bg-white {
+  transition: all 0.3s ease;
+}
+
+.bg-white:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Button hover effect */
+button[type="submit"] {
+  position: relative;
+  overflow: hidden;
+}
+
+button[type="submit"]::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button[type="submit"]:not(:disabled):hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Gradient text effect */
+.text-blue-600 {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Error message animation */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.text-red-500 {
+  animation: shake 0.3s ease-in-out;
+}
+
+/* Map container animation */
+.aspect-w-16 {
+  transition: all 0.3s ease;
+}
+
+.aspect-w-16:hover {
+  transform: scale(1.02);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .text-lg {
+    font-size: 1rem;
+  }
+  
+  .grid {
+    gap: 2rem;
+  }
+}
+
+/* Material Icons styling */
+.material-icons {
+  font-size: 24px;
+  line-height: 1;
+} 
