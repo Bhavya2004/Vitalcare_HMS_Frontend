@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AppointmentService, Appointment } from '../../../core/services/appointment.service';
+import { AppointmentService } from '../../../core/services/appointment.service';
 import { ToastrService } from 'ngx-toastr';
 import { SidebarComponent } from '../../../layout/sidebar/sidebar.component';
 import { AppointmentFormComponent } from './appointment-form/appointment-form.component';
 import { AuthService } from '../../../core/services/auth.service';
 import { AppointmentDetailComponent } from "./appointment-detail/appointment-detail.component";
-// import { BookAppointmentComponent } from './book-appointment/book-appointment.component';
+import { Appointment } from '../../../shared/models/appointment.model';
 
 @Component({
   selector: 'app-appointments',
@@ -24,9 +24,6 @@ export class AppointmentsComponent implements OnInit {
   isBookingModalOpen: boolean = false;
   selectedAppointment: Appointment | null = null;
   isLoading: boolean = true;
-  patientFirstName: string = '';
-  patientLastName: string = '';
-  patientGender: string = '';
   activeActionMenu: number | null = null;
   showCancelConfirmation: boolean = false;
   appointmentToCancel: Appointment | null = null;
@@ -39,13 +36,6 @@ export class AppointmentsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadAppointments();
-    this.authService.getPatientDetails().subscribe((details) => {
-      if (details) {
-        this.patientFirstName = details.firstName;
-        this.patientLastName = details.lastName;
-        this.patientGender = details.gender;
-      }
-    });
   }
 
   loadAppointments(): void {

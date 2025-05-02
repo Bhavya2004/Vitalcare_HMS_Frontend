@@ -88,7 +88,7 @@
         </div>
 
         <!-- Table -->
-        <div *ngIf="!isLoading" class="bg-white rounded-lg shadow-sm overflow-hidden">
+        <div *ngIf="!isLoading" class="bg-white rounded-lg shadow-sm overflow-visible">
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
@@ -191,9 +191,6 @@
 <!-- Appointment Form Modal -->
 <app-appointment-form 
   *ngIf="isBookingModalOpen" 
-  [patientFirstName]="patientFirstName" 
-  [patientLastName]="patientLastName" 
-  [patientGender]="patientGender"
   (close)="closeBookingModal()" 
   (appointmentBooked)="onAppointmentBooked()">
 </app-appointment-form>
