@@ -21,19 +21,16 @@ export class SidebarComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    console.log('SidebarComponent initialized');
   }
 
   ngOnInit(): void {
     // Get the user's role
     this.role = this.authService.getRole();
-    console.log('Current user role:', this.role);
   }
 
   // Check if the user has access to a specific link
   hasAccess(access: string[]): boolean {
     const hasAccess = access.includes(this.role);
-    console.log(`Checking access for role ${this.role} against ${access.join(', ')}: ${hasAccess}`);
     return hasAccess;
   }
 
