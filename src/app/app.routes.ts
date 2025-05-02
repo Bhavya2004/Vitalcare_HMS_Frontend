@@ -8,9 +8,16 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { PatientRegisterComponent } from './features/patient/register/patient-register/patient-register.component';
 import { PatientRegistrationGuard } from './core/guards/patient-registration.guard';
 import { AppointmentsComponent } from './features/patient/appointments/appointments.component';
+import { ProfileComponent } from './features/patient/profile/profile.component';
+import { AboutComponent } from './features/about/about.component';
+import { ServicesComponent } from './features/services/services.component';
+import { ContactComponent } from './features/contact/contact.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, // Homepage
+    { path: 'about', component: AboutComponent }, // About page
+    { path: 'services', component: ServicesComponent }, // Services page
+    { path: 'contact', component: ContactComponent }, // Contact page
     { path: 'sign-in', component: LoginComponent }, // Login page
     { path: 'sign-up', component: RegisterComponent }, // Register page
     { 
@@ -26,6 +33,11 @@ export const routes: Routes = [
     {
         path:'appointments',
         component: AppointmentsComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'profile',
+        component: ProfileComponent,
         canActivate: [AuthGuard]
     },
     { path: '**', redirectTo: '' } // Redirect invalid routes to home
