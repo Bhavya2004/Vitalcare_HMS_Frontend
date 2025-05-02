@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
+import { AuthService,PatientDetails } from './auth.service';
 
 export interface PatientRegistrationData {
   first_name: string;
@@ -34,7 +35,7 @@ export interface PatientRegistrationData {
 export class PatientService {
   private readonly apiUrl = 'http://localhost:3000/patient'; 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private authService : AuthService) {}
 
   /**
    * Gets the authorization headers with the token from localStorage.
@@ -57,10 +58,19 @@ export class PatientService {
    */
   registerPatient(patientData: PatientRegistrationData, imageFile?: File): Observable<any> {
     const formData = this.createFormData(patientData, imageFile);
-
+  
     return this.http.post(`${this.apiUrl}/register`, formData, {
       headers: this.getAuthHeaders(),
     }).pipe(
+      tap((response: any) => {
+        // Update the BehaviorSubject in AuthService with the registered patient details
+        const patientData: PatientDetails = {
+          firstName: response.patient.first_name,
+          lastName: response.patient.last_name,
+          gender: response.patient.gender,
+        };
+        this.authService.updatePatientDetails(patientData);
+      }),
       catchError((error) => {
         console.error('Patient registration failed:', error);
         return of(null); // Return null in case of an error
@@ -109,5 +119,41 @@ export class PatientService {
     }
 
     return formData;
+  }
+
+  // Fetch patient profile
+  getPatientProfile(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/profile`, {
+      headers: this.getAuthHeaders(),
+    }).pipe(
+      catchError((error) => {
+        console.error('Error fetching patient profile:', error);
+        return of(null); // Return null in case of an error
+      })
+    );
+  }
+
+  // Fetch medical history
+  getMedicalHistory(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/medical-history`, {
+      headers: this.getAuthHeaders(),
+    }).pipe(
+      catchError((error) => {
+        console.error('Error fetching medical history:', error);
+        return of([]); // Return an empty array in case of an error
+      })
+    );
+  }
+
+  // Fetch patient reviews
+  getPatientReviews(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/reviews`, {
+      headers: this.getAuthHeaders(),
+    }).pipe(
+      catchError((error) => {
+        console.error('Error fetching patient reviews:', error);
+        return of([]); // Return an empty array in case of an error
+      })
+    );
   }
 }

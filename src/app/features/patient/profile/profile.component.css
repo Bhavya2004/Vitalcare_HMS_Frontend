@@ -1,0 +1,296 @@
+/* Layout */
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  /* Apply animations to sections */
+  .flex-1 > div {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  /* Profile header animation */
+  .flex.items-start {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+  
+  /* Staggered animations for profile info */
+  .grid > div:nth-child(1) { animation-delay: 0.1s; }
+  .grid > div:nth-child(2) { animation-delay: 0.2s; }
+  .grid > div:nth-child(3) { animation-delay: 0.3s; }
+  .grid > div:nth-child(4) { animation-delay: 0.4s; }
+  .grid > div:nth-child(5) { animation-delay: 0.5s; }
+  .grid > div:nth-child(6) { animation-delay: 0.6s; }
+  .grid > div:nth-child(7) { animation-delay: 0.7s; }
+  .grid > div:nth-child(8) { animation-delay: 0.8s; }
+  .grid > div:nth-child(9) { animation-delay: 0.9s; }
+  
+  /* Card Styles */
+  .bg-white {
+    background-color: #ffffff;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+  
+  .bg-white:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+  
+  /* Profile Avatar */
+  .rounded-full {
+    transition: transform 0.3s ease;
+  }
+  
+  .rounded-full:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Quick Links */
+  .quick-links {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .quick-links .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .quick-links a {
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    line-height: 1.2;
+    padding: 8px 16px;
+    text-align: center;
+    word-break: break-word;
+    hyphens: auto;
+  }
+  
+  .quick-links a:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Quick Links Colors - Exact matches from the image */
+  .quick-links .bg-green-50 {
+    background-color: #eefbf1;
+  }
+  .quick-links .bg-green-100 {
+    background-color: #dcf5e3;
+  }
+  .quick-links .text-green-700 {
+    color: #15803d;
+  }
+  
+  .quick-links .bg-violet-50 {
+    background-color: #f6f1fe;
+  }
+  .quick-links .bg-violet-100 {
+    background-color: #ede4fc;
+  }
+  .quick-links .text-violet-700 {
+    color: #6d28d9;
+  }
+  
+  .quick-links .bg-blue-50 {
+    background-color: #f1f3fe;
+  }
+  .quick-links .bg-blue-100 {
+    background-color: #e4e9fc;
+  }
+  .quick-links .text-blue-700 {
+    color: #3730a3;
+  }
+  
+  .quick-links .bg-pink-50 {
+    background-color: #fef1f7;
+  }
+  .quick-links .bg-pink-100 {
+    background-color: #fce4ef;
+  }
+  .quick-links .text-pink-700 {
+    color: #be185d;
+  }
+  
+  .quick-links .bg-gray-100 {
+    background-color: #f3f4f6;
+  }
+  .quick-links .bg-gray-200 {
+    background-color: #e5e7eb;
+  }
+  
+  /* Table Styles */
+  .table-container {
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  tbody tr {
+    transition: background-color 0.2s ease;
+  }
+  
+  tbody tr:hover {
+    background-color: rgba(243, 244, 246, 0.5);
+  }
+  
+  /* Star Rating */
+  .text-yellow-400 {
+    color: #fbbf24;
+  }
+  
+  .star {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+  
+  .star:hover {
+    transform: scale(1.2);
+  }
+  
+  /* Scrollbar Styling */
+  .overflow-y-auto {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(156, 163, 175, 0.5) transparent;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .overflow-y-auto::-webkit-scrollbar-thumb {
+    background-color: rgba(156, 163, 175, 0.5);
+    border-radius: 3px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 1200px) {
+    .container {
+      max-width: 100%;
+      padding: 1rem;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    .flex.gap-6 {
+      flex-direction: column;
+    }
+    
+    .w-80 {
+      width: 100%;
+  }
+  
+    .quick-links .grid {
+      grid-template-columns: 1fr;
+  }
+  
+    .quick-links a.col-span-2 {
+      grid-column: auto;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .flex.items-start {
+      flex-direction: column;
+    }
+    
+    .space-x-6 {
+      margin-top: 1rem;
+    }
+  }
+  
+  @media (max-width: 640px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .quick-links a {
+      min-width: 100%;
+    }
+  }
+  
+  /* Apply animations */
+  .profile-header {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+  
+  .profile-header .border-b {
+    border-color: rgba(229, 231, 235, 0.5);
+  }
+  
+  .profile-info {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+  
+  .quick-links {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  .medical-history {
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: 0.2s;
+  }
+  
+  .patient-reviews {
+    animation: fadeIn 0.5s ease-out forwards;
+    animation-delay: 0.3s;
+  }
+  
+  /* Profile Section */
+  .profile-header {
+    animation: scaleIn 0.5s ease-out forwards;
+  }
+  
+  /* Profile Header Left Side */
+  .w-13 {
+    min-width: 320px;
+    border-right: 1px solid rgba(229, 231, 235, 0.5);
+    padding-right: 2rem;
+  }
+  
+  /* Appointments Counter */
+  .bg-gray-50 {
+    background-color: #f9fafb;
+    transition: all 0.3s ease;
+  }
+  
+  .bg-gray-50:hover {
+    background-color: #f3f4f6;
+    transform: translateY(-1px);
+  } 
