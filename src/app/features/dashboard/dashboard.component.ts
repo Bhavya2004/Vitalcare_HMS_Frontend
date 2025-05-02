@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 import { AuthService } from '../../core/services/auth.service';
+import { AppointmentService } from '../../core/services/appointment.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -13,13 +14,23 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class DashboardComponent implements OnInit {
   userRole: string = '';
+  appointmentCount: number = 0;
 
-  constructor(private authService: AuthService) {
-    console.log('Dashboard component initialized');
-  }
+  constructor(private authService: AuthService,private appointmentService:AppointmentService) {}
 
   ngOnInit(): void {
     this.userRole = this.authService.getRole();
-    console.log('Dashboard initialized with user role:', this.userRole);
+   this.loadAppointmentCount();
+  }
+
+  loadAppointmentCount():void{
+    this.appointmentService.getAppointmentCount().subscribe({
+      next:(response)=>{
+        this.appointmentCount=response.data.count;
+      },
+      error:(error)=>{
+        console.error('Error fetching appointment count:', error);
+      }
+    })
   }
 } 

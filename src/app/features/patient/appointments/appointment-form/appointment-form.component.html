@@ -1,0 +1,138 @@
+<!-- Backdrop -->
+<div 
+  class="fixed inset-0 bg-black/50 z-40 transition-opacity" 
+  (click)="close.emit()">
+</div>
+
+<!-- Right Side Drawer -->
+<div class="fixed top-0 right-0 h-full w-full max-w-md bg-white z-50 shadow-2xl flex flex-col">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between p-6 border-b border-gray-100">
+    <div class="flex items-center gap-4">
+      <div class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-lg font-bold text-gray-700">
+        {{ initials }}
+      </div>
+      <div>
+        <h2 class="text-xl font-semibold bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-transparent">
+          {{ patientFirstName }} {{ patientLastName }}
+        </h2>
+        <p class="text-sm text-gray-500">{{ patientGender }}</p>
+      </div>
+    </div>
+    <button 
+      (click)="close.emit()" 
+      class="rounded-full p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-100 transition-colors">
+      ✕
+    </button>
+  </div>
+
+  <div *ngIf="error" class="error-message">
+    {{ error }}
+  </div>
+
+  <!-- Form Body -->
+  <form 
+    id="appointmentForm" 
+    class="flex-1 overflow-y-auto p-6 space-y-6"
+    [formGroup]="appointmentForm"
+    (ngSubmit)="submitAppointment()">
+    
+    <!-- Appointment Type -->
+<div>
+  <label class="form-label">Appointment Type</label>
+  <select formControlName="type" class="form-select">
+    <option value="" disabled>Select appointment type</option>
+    <option value="CONSULTATION">Consultation</option>
+    <option value="FOLLOW_UP">Follow-Up</option>
+    <option value="DIAGNOSTIC">Diagnostic</option>
+  </select>
+  <div *ngIf="appointmentForm.get('type')?.errors?.['zodError']" class="error-message">
+    {{ appointmentForm.get('type')?.errors?.['zodError'] }}
+  </div>
+  <div *ngIf="appointmentForm.get('type')?.invalid && appointmentForm.get('type')?.touched" class="error-message">
+    Appointment type is required.
+  </div>
+</div>
+
+<!-- Physician -->
+<div>
+  <label class="form-label">Physician</label>
+  <select formControlName="doctor_id" class="form-select">
+    <option value="" disabled>Select a physician</option>
+    <option *ngFor="let doctor of doctors" [value]="doctor.id">
+      Dr. {{ doctor.name }} - {{ doctor.specialization }}
+    </option>
+  </select>
+  <div *ngIf="appointmentForm.get('doctor_id')?.errors?.['zodError']" class="error-message">
+    {{ appointmentForm.get('doctor_id')?.errors?.['zodError'] }}
+  </div>
+  <div *ngIf="appointmentForm.get('doctor_id')?.invalid && appointmentForm.get('doctor_id')?.touched" class="error-message">
+    Physician is required.
+  </div>
+</div>
+
+<!-- Date -->
+<div>
+  <label class="form-label">Date</label>
+  <input type="date" formControlName="appointment_date" class="form-input" />
+  <div *ngIf="appointmentForm.get('appointment_date')?.errors?.['zodError']" class="error-message">
+    {{ appointmentForm.get('appointment_date')?.errors?.['zodError'] }}
+  </div>
+  <div *ngIf="!appointmentForm.get('appointment_date')?.errors?.['zodError'] && appointmentForm.get('appointment_date')?.invalid && appointmentForm.get('appointment_date')?.touched" class="error-message">
+    Appointment  is required.
+  </div>
+</div>
+
+<!-- Time -->
+<div>
+  <label class="form-label">Time</label>
+  <select formControlName="time" class="form-select">
+    <option value="" disabled>Select time</option>
+    <option value="09:00">09:00</option>
+    <option value="09:30">09:30</option>
+    <option value="10:00">10:00</option>
+    <option value="10:30">10:30</option>
+    <option value="11:00">11:00</option>
+    <option value="11:30">11:30</option>
+    <option value="13:00">13:00</option>
+    <option value="13:30">13:30</option>
+    <option value="14:00">14:00</option>
+    <option value="14:30">14:30</option>
+    <option value="15:00">15:00</option>
+    <option value="15:30">15:30</option>
+    <option value="16:00">16:00</option>
+    <option value="16:30">16:30</option>
+    <option value="17:00">17:00</option>
+  </select>
+  <div *ngIf="appointmentForm.get('time')?.errors?.['zodError']" class="error-message">
+    {{ appointmentForm.get('time')?.errors?.['zodError'] }}
+  </div>
+  <div *ngIf="appointmentForm.get('time')?.invalid && appointmentForm.get('time')?.touched" class="error-message">
+    Time is required.
+  </div>
+</div>
+
+    <!-- Note -->
+    <div>
+      <label class="form-label">Note</label>
+      <textarea 
+        formControlName="note" 
+        rows="3" 
+        placeholder="Additional notes for your appointment (optional)" 
+        class="form-input resize-none">
+      </textarea>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="flex justify-end pt-6 border-t border-gray-100">
+      <button 
+        type="submit"
+        [disabled]="isLoading  || appointmentForm.pending"
+        class="submit-button">
+        {{ isLoading ? 'Booking...' : 'Book Appointment' }}
+      </button>
+    </div>
+
+  </form>
+</div>

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, tap } from 'rxjs';
 
 interface LoginResponse {
   token: string;
@@ -7,6 +8,9 @@ interface LoginResponse {
     id: string;
     email: string;
     role: string;
+    firstName: string;
+    lastName: string;
+    gender: string;
   };
 }
 
@@ -17,6 +21,12 @@ interface RegisterRequest {
   lastName?: string;
 }
 
+interface PatientDetails{
+  firstName: string;
+  lastName: string;
+  gender: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -25,6 +35,7 @@ export class AuthService {
   private baseUrl = 'http://localhost:3000/auth'; 
   private isAuthenticated: boolean = false; 
   private role: string = ''; 
+  private patientDetails = new BehaviorSubject<PatientDetails | null>(null);
 
   constructor(private http:HttpClient) { 
     // Initialize authentication state from localStorage
@@ -39,13 +50,31 @@ export class AuthService {
     if (token && storedRole) {
       this.isAuthenticated = true;
       this.role = storedRole;
-      console.log('Auth state initialized with role:', this.role);
     }
   }
 
   //Login Method
   login(email: string, password: string) {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { email, password });
+    return this.http.post<LoginResponse>(`${this.baseUrl}/login`, { email, password }).pipe(
+      tap((response)=>{
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('userRole', response.user.role);
+        this.isAuthenticated = true;
+        this.role = response.user.role;
+
+        //set patient details
+        const patientDetails:PatientDetails={
+          firstName:response.user.firstName || 'Unknown Patient',
+          lastName:response.user.lastName || 'Unknown Patient',
+          gender:response.user.gender || 'Unknown'
+        };
+        this.patientDetails.next(patientDetails);
+      })
+    )
+  }
+
+  getPatientDetails() : BehaviorSubject<PatientDetails | null>{
+    return this.patientDetails;
   }
 
   //Register Method

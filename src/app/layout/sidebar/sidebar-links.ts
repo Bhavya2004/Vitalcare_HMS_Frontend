@@ -20,7 +20,7 @@ export const SIDEBAR_LINKS = [
       { name: 'Billing Overview', href: '/record/billing', access: ['ADMIN', 'DOCTOR'], icon: 'receipt' },
       { name: "Patient Management", href: "/nurse/patient-management", access: ["NURSE"], icon: 'people'},
       { name: "Administer Medications", href: "/nurse/administer-medications", access: ["ADMIN", "DOCTOR", "NURSE"], icon: 'medication'},
-      { name: "Appointments", href: "/record/appointments", access: ["PATIENT"], icon: 'event'},
+      { name: "Appointments", href: "/appointments", access: ["PATIENT"], icon: 'event'},
       { name: "Records", href: "/patient/self", access: ["PATIENT"], icon: 'folder'},
       { name: "Prescription", href: "#", access: ["PATIENT"], icon: 'medication'},
       { name: "Billing", href: "/patient/self?cat=payments", access: ["PATIENT"], icon: 'receipt'},

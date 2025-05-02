@@ -16,7 +16,7 @@ import { SidebarComponent } from '../../../../layout/sidebar/sidebar.component';
 })
 export class PatientRegisterComponent implements OnInit {
   @ViewChild('fileInput') fileInput!: ElementRef;
-
+  
   registrationForm: FormGroup;
   isSubmitting = false;
   fieldErrors: { [key: string]: string } = {};
@@ -72,7 +72,7 @@ export class PatientRegisterComponent implements OnInit {
       this.toastr.error('Access denied. This page is only for patients.');
       this.router.navigate([this.dashboardRoute]);
     }
-  }
+    }
 
   /**
    * Checks if the user has already registered as a patient.
@@ -102,7 +102,7 @@ export class PatientRegisterComponent implements OnInit {
 
     if (this.registrationForm.valid) {
       this.isSubmitting = true;
-
+      
       const formData = this.registrationForm.value;
       delete formData.img;
 
@@ -131,8 +131,8 @@ export class PatientRegisterComponent implements OnInit {
    * Handles successful registration.
    */
   private handleRegistrationSuccess(): void {
-    this.isSubmitting = false;
-    this.toastr.success('Patient registration successful!', 'Welcome to VitalCare HMS');
+          this.isSubmitting = false;
+          this.toastr.success('Patient registration successful!', 'Welcome to VitalCare HMS');
     this.router.navigate([this.dashboardRoute]);
   }
 
@@ -142,21 +142,21 @@ export class PatientRegisterComponent implements OnInit {
    * @param error - The error object.
    */
   private handleRegistrationError(error: any): void {
-    this.isSubmitting = false;
+          this.isSubmitting = false;
 
-    if (error.error?.errors) {
-      error.error.errors.forEach((err: any) => {
-        if (err.field) {
-          this.fieldErrors[err.field] = err.message;
-        } else {
-          this.errorMessage = err.message;
+          if (error.error?.errors) {
+            error.error.errors.forEach((err: any) => {
+              if (err.field) {
+                this.fieldErrors[err.field] = err.message;
+              } else {
+                this.errorMessage = err.message;
+              }
+            });
+          } else {
+            this.errorMessage = error.error?.message || 'An error occurred during registration';
+          }
+          this.toastr.error(this.errorMessage || 'Registration failed');
         }
-      });
-    } else {
-      this.errorMessage = error.error?.message || 'An error occurred during registration';
-    }
-    this.toastr.error(this.errorMessage || 'Registration failed');
-  }
 
   /**
    * Triggers the file input click event.
@@ -194,13 +194,13 @@ export class PatientRegisterComponent implements OnInit {
       return false;
     }
 
-    if (file.size > 5 * 1024 * 1024) {
-      this.toastr.error('Image size should not exceed 5MB');
+      if (file.size > 5 * 1024 * 1024) {
+        this.toastr.error('Image size should not exceed 5MB');
       return false;
     }
 
     return true;
-  }
+      }
 
   /**
    * Creates a preview of the selected image file.
@@ -208,12 +208,12 @@ export class PatientRegisterComponent implements OnInit {
    * @param file - The selected file.
    */
   private createImagePreview(file: File): void {
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.imagePreview = reader.result as string;
-    };
-    reader.readAsDataURL(file);
-  }
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.imagePreview = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
 
   hasError(controlName: string): boolean {
     const control = this.registrationForm.get(controlName);
