@@ -1,7 +1,9 @@
 import { Component, OnInit, Output, EventEmitter, Input, signal, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AppointmentService, Doctor } from '../../../../core/services/appointment.service';
+import { AppointmentService } from '../../../../core/services/appointment.service';
+import { AuthService } from '../../../../core/services/auth.service';
+import { Doctor } from '../../../../shared/models/appointment.model';
 
 @Component({
   selector: 'app-appointment-form',
@@ -10,10 +12,10 @@ import { AppointmentService, Doctor } from '../../../../core/services/appointmen
   templateUrl: './appointment-form.component.html',
   styleUrls: ['./appointment-form.component.css']
 })
-export class AppointmentFormComponent implements OnInit, OnChanges {
-  @Input({ required: true }) patientFirstName = '';
-  @Input({ required: true }) patientLastName = '';
-  @Input({ required: true }) patientGender = '';
+export class AppointmentFormComponent implements OnInit, OnChanges { 
+  patientFirstName = '';
+  patientLastName = ''; 
+  patientGender = '';
 
   @Output() close = new EventEmitter<void>();
   @Output() appointmentBooked = new EventEmitter<void>();
@@ -25,9 +27,10 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   appointmentForm!: FormGroup;
   initials: string = '';
 
-  constructor(private fb: FormBuilder, private appointmentService: AppointmentService) {}
+  constructor(private fb: FormBuilder, private appointmentService: AppointmentService, private authService : AuthService) {}
 
   ngOnInit() {
+    this.loadPatientDetails();
     this.loadDoctors();
     this.initForm();
     this.setInitials();  
@@ -35,6 +38,17 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
 
   ngOnChanges() {
     this.setInitials(); 
+  }
+
+  private loadPatientDetails() {
+    this.authService.getPatientDetails().subscribe((details) => {
+      if (details) {
+        this.patientFirstName = details.firstName;
+        this.patientLastName = details.lastName;
+        this.patientGender = details.gender;
+        this.setInitials(); 
+      }
+    });
   }
 
   private initForm() {

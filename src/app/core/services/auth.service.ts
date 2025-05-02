@@ -21,7 +21,7 @@ interface RegisterRequest {
   lastName?: string;
 }
 
-interface PatientDetails{
+export interface PatientDetails{
   firstName: string;
   lastName: string;
   gender: string;
@@ -61,16 +61,12 @@ export class AuthService {
         localStorage.setItem('userRole', response.user.role);
         this.isAuthenticated = true;
         this.role = response.user.role;
-
-        //set patient details
-        const patientDetails:PatientDetails={
-          firstName:response.user.firstName || 'Unknown Patient',
-          lastName:response.user.lastName || 'Unknown Patient',
-          gender:response.user.gender || 'Unknown'
-        };
-        this.patientDetails.next(patientDetails);
       })
     )
+  }
+
+  updatePatientDetails(details: PatientDetails): void {
+    this.patientDetails.next(details);
   }
 
   getPatientDetails() : BehaviorSubject<PatientDetails | null>{

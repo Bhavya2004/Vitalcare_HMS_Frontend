@@ -1,0 +1,175 @@
+<div class="flex h-screen bg-gray-50">
+  <!-- Sidebar -->
+  <app-sidebar></app-sidebar>
+
+  <!-- Right Side Content -->
+  <div class="flex-1 flex flex-col">
+    <!-- Route Header -->
+    <div class="bg-white border-b border-gray-200 px-8 py-4">
+      <h1 class="text-xl font-semibold text-gray-900">Self</h1>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="flex-1 overflow-y-auto">
+      <div class="container mx-auto p-6">
+        <!-- Two Column Layout -->
+        <div class="flex gap-6">
+          <!-- Left Column - Main Content -->
+          <div class="flex-1 space-y-6">
+            <div class="flex gap-6">
+              <!-- Profile Header -->
+              <div class="bg-white rounded-lg shadow-sm p-6 w-80">
+                <div class="flex flex-col items-center text-center">
+                  <div class="w-24 h-24 rounded-full bg-pink-200 flex items-center justify-center text-2xl font-semibold text-pink-600 mb-4">
+                      <img *ngIf="profile.img" [src]="'http://localhost:3000' + profile.img" alt="Profile Image" class="w-full h-full object-cover rounded-full">
+                      <span *ngIf="!profile.img">{{ profile.name ? profile.name[0] : 'P' }}</span>
+                    </div>
+                  <h1 class="text-2xl font-semibold text-gray-900 mb-1">{{ profile.name }}</h1>
+                  <p class="text-gray-600 mb-4">{{ profile.email }}</p>
+                  <div class="bg-gray-50 px-8 py-3 rounded-lg w-full">
+                    <div class="text-3xl font-bold text-gray-900">{{ profile.appointments || 0 }}</div>
+                    <div class="text-sm text-gray-600">Appointments</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Profile Information Grid -->
+              <div class="bg-white rounded-lg shadow-sm p-6 flex-1">
+                <div class="grid grid-cols-3 gap-6 profile-info">
+                  <div class="space-y-2" *ngIf="profile.gender">
+                    <div class="text-sm text-gray-500">Gender</div>
+                    <div class="font-medium">{{ profile.gender }}</div>
+                  </div>
+                  <div class="space-y-2" *ngIf="profile.dateOfBirth">
+                    <div class="text-sm text-gray-500">Date of Birth</div>
+                    <div class="font-medium">{{ profile.dateOfBirth | date: 'longDate' }}</div>
+                  </div>
+                  <div class="space-y-2" *ngIf="profile.phoneNumber">
+                    <div class="text-sm text-gray-500">Phone Number</div>
+                    <div class="font-medium">{{ profile.phoneNumber }}</div>
+                  </div>
+                  <div class="space-y-2" *ngIf="profile.maritalStatus">
+                    <div class="text-sm text-gray-500">Marital Status</div>
+                    <div class="font-medium">{{ profile.maritalStatus }}</div>
+                  </div>
+                  <div class="space-y-2" *ngIf="profile.bloodGroup">
+                    <div class="text-sm text-gray-500">Blood Group</div>
+                    <div class="font-medium">{{ profile.bloodGroup }}</div>
+                  </div>
+                  <div class="space-y-2" *ngIf="profile.address">
+                    <div class="text-sm text-gray-500">Address</div>
+                    <div class="font-medium">{{ profile.address }}</div>
+                  </div>
+                  <div class="space-y-2" *ngIf="profile.contactPerson">
+                    <div class="text-sm text-gray-500">Contact Person</div>
+                    <div class="font-medium">{{ profile.contactPerson }}</div>
+                  </div>
+                  <div class="space-y-2" *ngIf="profile.emergencyContact">
+                    <div class="text-sm text-gray-500">Emergency Contact</div>
+                    <div class="font-medium">{{ profile.emergencyContact }}</div>
+                  </div>
+                  <div class="space-y-2" *ngIf="profile.lastVisit">
+                    <div class="text-sm text-gray-500">Last Visit</div>
+                    <div class="font-medium">{{ profile.lastVisit | date: 'longDate' }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Medical History Section -->
+            <div class="bg-white rounded-lg shadow-sm p-6 medical-history">
+              <div class="flex items-center justify-between mb-4">
+                <h2 class="text-lg font-semibold">Medical History (All)</h2>
+                <div class="flex items-center space-x-2">
+                  <span class="text-gray-500">{{ medicalHistory.length }} total records</span>
+                </div>
+              </div>
+              <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                  <thead class="bg-gray-50">
+                    <tr>
+                      <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">NO</th>
+                      <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">DATE & TIME</th>
+                      <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">DOCTOR</th>
+                      <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">DIAGNOSIS</th>
+                      <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">LAB TEST</th>
+                      <th class="text-left py-3 px-4 text-sm font-medium text-gray-500">ACTION</th>
+                    </tr>
+                  </thead>
+                  <tbody class="bg-white divide-y divide-gray-100">
+                    <tr *ngFor="let record of medicalHistory">
+                      <td class="py-3 px-4">{{ record.no }}</td>
+                      <td class="py-3 px-4">{{ record.dateTime }}</td>
+                      <td class="py-3 px-4">{{ record.doctor }}</td>
+                      <td class="py-3 px-4">{{ record.diagnosis }}</td>
+                      <td class="py-3 px-4">{{ record.labTest }}</td>
+                      <td class="py-3 px-4">
+                        <button class="text-blue-600 hover:text-blue-800">View</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column - Quick Links and Reviews -->
+          <div class="w-80 space-y-6">
+            <!-- Quick Links Section -->
+            <div class="bg-white rounded-lg shadow-sm p-6 quick-links">
+              <h2 class="text-lg font-semibold mb-4">Quick Links</h2>
+              <div class="grid grid-cols-2 gap-3">
+                <a routerLink="/appointments" class="px-4 py-2.5 bg-green-50 hover:bg-green-100 text-green-700 rounded-md text-sm font-medium">
+                  Patient's Appointments
+                </a>
+                <a routerLink="/medical-records" class="px-4 py-2.5 bg-violet-50 hover:bg-violet-100 text-violet-700 rounded-md text-sm font-medium">
+                  Medical Records
+                </a>
+                <a routerLink="/medical-bills" class="px-4 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-md text-sm font-medium">
+                  Medical Bills
+                </a>
+                <a routerLink="/dashboard" class="px-4 py-2.5 bg-pink-50 hover:bg-pink-100 text-pink-700 rounded-md text-sm font-medium">
+                  Dashboard
+                </a>
+                <a routerLink="/lab-test" class="px-4 py-2.5 bg-pink-50 hover:bg-pink-100 text-pink-700 rounded-md text-sm font-medium">
+                  Lab Test & Result
+                </a>
+                <a routerLink="/edit-info" class="px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md text-sm font-medium col-span-2">
+                  Edit Information
+                </a>
+              </div>
+            </div>
+
+            <!-- Patient Reviews Section -->
+            <div class="bg-white rounded-lg shadow-sm p-6 patient-reviews">
+              <h2 class="text-lg font-semibold mb-4">Patient Reviews</h2>
+              <div class="space-y-4" *ngIf="reviews.length > 0; else noReviews">
+                <div class="flex items-center justify-between" *ngFor="let review of reviews">
+                  <div>
+                    <p class="font-medium">{{ review.name }}</p>
+                    <p class="text-sm text-gray-500">{{ review.date }}</p>
+                    <p class="text-gray-600 mt-1">{{ review.comment }}</p>
+                  </div>
+                  <div class="flex items-center">
+                    <div class="flex text-yellow-400">
+                      <ng-container *ngFor="let star of [1,2,3,4,5]">
+                        <span class="text-2xl star" [class.text-gray-300]="star > review.rating">★</span>
+                      </ng-container>
+                    </div>
+                    <span class="ml-2 text-lg font-medium">{{ review.rating }}.0</span>
+                  </div>
+                </div>
+              </div>
+              <ng-template #noReviews>
+                <div class="text-center py-8 text-gray-500">
+                  <span class="material-icons text-4xl text-gray-400">rate_review</span>
+                  <p class="mt-2">No reviews available</p>
+                </div>
+              </ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

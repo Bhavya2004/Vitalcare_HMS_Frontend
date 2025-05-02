@@ -5,7 +5,7 @@ export const SIDEBAR_LINKS = [
     label: 'MENU',
     links: [
       { name: 'Dashboard', href: '/dashboard', access: ACCESS_LEVELS_ALL, icon: 'dashboard' },
-      { name: 'Profile', href: '/patient/self', access: ['PATIENT'], icon: 'person' },
+      { name: 'Profile', href: '/profile', access: ['PATIENT'], icon: 'person' },
     ],
   },
   {
