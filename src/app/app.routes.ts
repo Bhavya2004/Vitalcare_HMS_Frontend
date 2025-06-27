@@ -12,6 +12,8 @@ import { ProfileComponent } from './features/patient/profile/profile.component';
 import { AboutComponent } from './features/about/about.component';
 import { ServicesComponent } from './features/services/services.component';
 import { ContactComponent } from './features/contact/contact.component';
+import { DoctorsListComponent } from './features/doctors/doctors-list.component';
+import { DoctorAppointmentsComponent } from './features/doctors/doctor-appointments.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, // Homepage
@@ -38,6 +40,16 @@ export const routes: Routes = [
     {
         path: 'profile',
         component: ProfileComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'admin/doctors',
+        component: DoctorsListComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'doctor/appointments',
+        component: DoctorAppointmentsComponent,
         canActivate: [AuthGuard]
     },
     { path: '**', redirectTo: '' } // Redirect invalid routes to home

@@ -71,4 +71,11 @@ export class AppointmentService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  // Get all appointments for the logged-in doctor
+  getDoctorAppointments(): Observable<ApiResponse<Appointment[]>> {
+    return this.http.get<ApiResponse<Appointment[]>>(`${environment.apiUrl}/doctor/appointments`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 } 

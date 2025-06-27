@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AppointmentService } from '../../../../core/services/appointment.service';
 import { AuthService } from '../../../../core/services/auth.service';
-import { Doctor } from '../../../../shared/models/appointment.model';
+import { Doctor, DoctorsService } from '../../../../core/services/doctors.service';
 
 @Component({
   selector: 'app-appointment-form',
@@ -27,7 +27,7 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
   appointmentForm!: FormGroup;
   initials: string = '';
 
-  constructor(private fb: FormBuilder, private appointmentService: AppointmentService, private authService : AuthService) {}
+  constructor(private fb: FormBuilder, private appointmentService: AppointmentService, private authService : AuthService, private doctorsService: DoctorsService) {}
 
   ngOnInit() {
     this.loadPatientDetails();
@@ -65,15 +65,9 @@ export class AppointmentFormComponent implements OnInit, OnChanges {
     this.isLoading = true;
     this.error = null;
 
-    this.appointmentService.getDoctors().subscribe({
-      next: (response) => {
-        this.doctors = response.data;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.error = error?.error?.message || 'Failed to load doctors';
-        this.isLoading = false;
-      }
+    this.doctorsService.getDoctorsForPatient().subscribe(doctors => {
+      this.doctors = doctors;
+      this.isLoading = false;
     });
   }
 

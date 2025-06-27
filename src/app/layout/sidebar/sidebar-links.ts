@@ -12,10 +12,11 @@ export const SIDEBAR_LINKS = [
     label: 'Manage',
     links: [
       { name: 'Users', href: '/record/users', access: ['ADMIN'], icon: 'group' },
-      { name: 'Doctors', href: '/record/doctors', access: ['ADMIN'], icon: 'medical_services' },
+      { name: 'Doctors', href: '/admin/doctors', access: ['ADMIN'], icon: 'medical_services' },
+      { name: 'Appointments', href: '/doctor/appointments', access: ['DOCTOR'], icon: 'event' },
       { name: 'Staffs', href: '/record/staffs', access: ['ADMIN', 'DOCTOR'], icon: 'people' },
       { name: 'Patients', href: '/record/patients', access: ['ADMIN', 'DOCTOR', 'NURSE'], icon: 'person' },
-      { name: 'Appointments', href: '/record/appointments', access: ['ADMIN', 'DOCTOR', 'NURSE'], icon: 'event' },
+      { name: 'Appointments', href: '/record/appointments', access: ['ADMIN', 'NURSE'], icon: 'event' },
       { name: 'Medical Records', href: '/record/medical-records', access: ['ADMIN', 'DOCTOR', 'NURSE'], icon: 'assignment' },
       { name: 'Billing Overview', href: '/record/billing', access: ['ADMIN', 'DOCTOR'], icon: 'receipt' },
       { name: "Patient Management", href: "/nurse/patient-management", access: ["NURSE"], icon: 'people'},
