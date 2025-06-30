@@ -12,13 +12,15 @@
     left: 50%;
     transform: translate(-50%, -50%);
     max-width: 42rem;
+    width: 90%;
     background-color: white;
     z-index: 50;
     border-radius: 1rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     padding: 2rem;
     max-height: 90vh;
-    overflow-y: visible; /* fix unwanted scroll */
+    display: flex;
+    flex-direction: column;
   }
   
   /* Section Card */
@@ -86,7 +88,9 @@
     .modal-content {
       padding: 1rem;
       max-width: 95%;
+      width: 95%;
       border-radius: 0.75rem;
+      max-height: 95vh;
     }
   
     .grid-cols-2 {
