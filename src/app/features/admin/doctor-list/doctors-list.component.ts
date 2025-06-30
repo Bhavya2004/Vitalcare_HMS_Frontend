@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { DoctorsService, Doctor } from '../../core/services/doctors.service';
-import { AddDoctorComponent } from './add-doctor.component';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { DoctorsService, Doctor } from '../../../core/services/doctors.service';
+import { AddDoctorComponent } from '../add-doctor/add-doctor.component'; 
+import { SidebarComponent } from '../../../layout/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-doctors-list',

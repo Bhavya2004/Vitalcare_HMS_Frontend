@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { DoctorsService, Doctor, WorkingDay } from '../../core/services/doctors.service';
 import { FormBuilder, FormGroup, Validators, FormArray, ReactiveFormsModule } from '@angular/forms';
+import { DoctorsService, WorkingDay , Doctor } from '../../../core/services/doctors.service';
 import { CommonModule } from '@angular/common';
 
 @Component({

@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AppointmentService } from '../../core/services/appointment.service';
+import { AppointmentService } from '../../../../core/services/appointment.service'; 
 import { ToastrService } from 'ngx-toastr';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
-import { Appointment } from '../../shared/models/appointment.model';
-import { DoctorAppointmentDetailComponent } from './doctor-appointment-detail.component';
-import { DoctorsService } from '../../core/services/doctors.service';
+import { SidebarComponent } from '../../../../layout/sidebar/sidebar.component'; 
+import { Appointment } from '../../../../shared/models/appointment.model'; 
+import { DoctorAppointmentDetailComponent } from '../appointment-detail/doctor-appointment-detail.component'; 
+import { DoctorsService } from '../../../../core/services/doctors.service'; 
 
 @Component({
   selector: 'app-doctor-appointments',

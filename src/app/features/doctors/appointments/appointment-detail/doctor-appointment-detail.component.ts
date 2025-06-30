@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Appointment } from '../../shared/models/appointment.model';
+import { Appointment } from '../../../../shared/models/appointment.model';
 
 @Component({
   selector: 'app-doctor-appointment-detail',
