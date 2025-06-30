@@ -148,13 +148,13 @@
                          class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100 focus:outline-none z-10"
                          [ngStyle]="{'bottom': 'auto', 'top': '100%'}">
                       <div class="py-1">
-                        <button
-                          (click)="viewAppointment(appointment.id)"
+                        <a
+                          [routerLink]="['/doctor/appointments', appointment.id]"
                           class="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
                         >
                           <i class="material-icons mr-2 text-blue-600">visibility</i>
                           View Details
-                        </button>
+                        </a>
                         <button
                           *ngIf="appointment.status === 'PENDING'"
                           (click)="openStatusModal(appointment, 'SCHEDULED')"
@@ -196,13 +196,6 @@
     </div>
   </div>
 </div>
-
-<!-- View Appointment Modal -->
-<app-doctor-appointment-detail
-  *ngIf="selectedAppointment"
-  [selectedAppointment]="selectedAppointment"
-  (close)="closeViewModal()"
-></app-doctor-appointment-detail>
 
 <!-- Status Update Modal -->
 <div *ngIf="showStatusModal" class="fixed inset-0 z-50 overflow-y-auto">

@@ -29,6 +29,7 @@ export class DoctorsService {
   private adminUrl = `${environment.apiUrl}/admin/doctors`;
   private patientUrl = `${environment.apiUrl}/patient/doctors`;
   private doctorUrl = `${environment.apiUrl}/doctor`;
+  private doctorDashboardUrl = `${environment.apiUrl}/doctor/dashboard`;
 
   constructor(private http: HttpClient) {}
 
@@ -67,5 +68,19 @@ export class DoctorsService {
     return this.http.get<Doctor[]>(this.patientUrl, {
       headers: this.getAuthHeaders()
     });
+  }
+
+  getAppointmentById(id: number): Observable<Appointment> {
+    return this.http.get<Appointment>(`${this.doctorDashboardUrl}/appointments/${id}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  addVitalSigns(appointmentId: number, data: any): Observable<any> {
+    return this.http.post<any>(
+      `${this.doctorDashboardUrl}/appointments/${appointmentId}/vitals`,
+      data,
+      { headers: this.getAuthHeaders() }
+    );
   }
 } 

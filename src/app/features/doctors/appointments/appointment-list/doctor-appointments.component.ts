@@ -1,26 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AppointmentService } from '../../../../core/services/appointment.service'; 
+import { AppointmentService } from '../../../../core/services/appointment.service';
 import { ToastrService } from 'ngx-toastr';
-import { SidebarComponent } from '../../../../layout/sidebar/sidebar.component'; 
-import { Appointment } from '../../../../shared/models/appointment.model'; 
-import { DoctorAppointmentDetailComponent } from '../appointment-detail/doctor-appointment-detail.component'; 
-import { DoctorsService } from '../../../../core/services/doctors.service'; 
+import { SidebarComponent } from '../../../../layout/sidebar/sidebar.component';
+import { Appointment } from '../../../../shared/models/appointment.model';
+import { DoctorsService } from '../../../../core/services/doctors.service';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-doctor-appointments',
   standalone: true,
-  imports: [CommonModule, FormsModule, SidebarComponent,DoctorAppointmentDetailComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    SidebarComponent,
+    RouterModule,
+  ],
   templateUrl: './doctor-appointments.component.html',
-  styleUrls: ['./doctor-appointments.component.css']
+  styleUrls: ['./doctor-appointments.component.css'],
 })
 export class DoctorAppointmentsComponent implements OnInit {
   appointments: Appointment[] = [];
   filteredAppointments: Appointment[] = [];
   searchTerm: string = '';
   statusFilter: string = '';
-  selectedAppointment: Appointment | null = null;
   isLoading: boolean = true;
   activeActionMenu: number | null = null;
   showStatusModal: boolean = false;
@@ -30,7 +34,7 @@ export class DoctorAppointmentsComponent implements OnInit {
 
   constructor(
     private appointmentService: AppointmentService,
-    private doctorService : DoctorsService,
+    private doctorService: DoctorsService,
     private toastr: ToastrService
   ) {}
 
@@ -50,21 +54,24 @@ export class DoctorAppointmentsComponent implements OnInit {
         console.error('Error loading appointments:', error);
         this.toastr.error('Failed to load appointments');
         this.isLoading = false;
-      }
+      },
     });
   }
 
   filterAppointments(): void {
     let filtered = this.appointments;
     if (this.statusFilter) {
-      filtered = filtered.filter(appointment => appointment.status === this.statusFilter);
+      filtered = filtered.filter(
+        (appointment) => appointment.status === this.statusFilter
+      );
     }
     if (this.searchTerm) {
       const searchTermLower = this.searchTerm.toLowerCase();
-      filtered = filtered.filter(appointment => 
-        appointment.patient.first_name.toLowerCase().includes(searchTermLower) ||
-        appointment.type.toLowerCase().includes(searchTermLower) ||
-        appointment.status.toLowerCase().includes(searchTermLower)
+      filtered = filtered.filter(
+        (appointment) =>
+          appointment.patient.first_name.toLowerCase().includes(searchTermLower) ||
+          appointment.type.toLowerCase().includes(searchTermLower) ||
+          appointment.status.toLowerCase().includes(searchTermLower)
       );
     }
     this.filteredAppointments = filtered;
@@ -76,25 +83,18 @@ export class DoctorAppointmentsComponent implements OnInit {
   }
 
   toggleActionMenu(appointmentId: number): void {
-    this.activeActionMenu = this.activeActionMenu === appointmentId ? null : appointmentId;
+    this.activeActionMenu =
+      this.activeActionMenu === appointmentId ? null : appointmentId;
   }
 
   closeActionMenu(): void {
     this.activeActionMenu = null;
   }
 
-  viewAppointment(appointmentId: number): void {
-    this.selectedAppointment = this.appointments.find(a => a.id === appointmentId) || null;
-    this.closeActionMenu();
-    document.body.style.overflow = 'hidden';
-  }
-
-  closeViewModal(): void {
-    this.selectedAppointment = null;
-    document.body.style.overflow = 'auto';
-  }
-
-  openStatusModal(appointment: Appointment, action: 'SCHEDULED' | 'COMPLETED' | 'CANCELLED'): void {
+  openStatusModal(
+    appointment: Appointment,
+    action: 'SCHEDULED' | 'COMPLETED' | 'CANCELLED'
+  ): void {
     this.appointmentToUpdate = appointment;
     this.statusAction = action;
     this.reason = '';
@@ -113,21 +113,23 @@ export class DoctorAppointmentsComponent implements OnInit {
 
   confirmStatusUpdate(): void {
     if (this.appointmentToUpdate && this.statusAction) {
-      this.doctorService.updateAppointmentStatus(
-        this.appointmentToUpdate.id,
-        this.statusAction,
-        this.statusAction === 'CANCELLED' ? this.reason : undefined
-      ).subscribe({
-        next: () => {
-          this.toastr.success('Appointment status updated');
-          this.loadAppointments();
-          this.closeStatusModal();
-        },
-        error: (error) => {
-          console.error('Error updating appointment:', error);
-          this.toastr.error('Failed to update appointment');
-        }
-      });
+      this.doctorService
+        .updateAppointmentStatus(
+          this.appointmentToUpdate.id,
+          this.statusAction,
+          this.statusAction === 'CANCELLED' ? this.reason : undefined
+        )
+        .subscribe({
+          next: () => {
+            this.toastr.success('Appointment status updated');
+            this.loadAppointments();
+            this.closeStatusModal();
+          },
+          error: (error) => {
+            console.error('Error updating appointment:', error);
+            this.toastr.error('Failed to update appointment');
+          },
+        });
     }
   }
 
@@ -135,7 +137,7 @@ export class DoctorAppointmentsComponent implements OnInit {
     return new Date(date).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
-      day: 'numeric'
+      day: 'numeric',
     });
   }
 
@@ -143,7 +145,7 @@ export class DoctorAppointmentsComponent implements OnInit {
     return new Date(`2000-01-01T${time}`).toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: 'numeric',
-      hour12: true
+      hour12: true,
     });
   }
 
@@ -167,7 +169,9 @@ export class DoctorAppointmentsComponent implements OnInit {
   }
 
   getAppointmentCountByStatus(status: string): number {
-    return this.filteredAppointments.filter(appointment => appointment.status === status).length;
+    return this.filteredAppointments.filter(
+      (appointment) => appointment.status === status
+    ).length;
   }
 
   getPatientImgUrl(imgPath: string | undefined): string {

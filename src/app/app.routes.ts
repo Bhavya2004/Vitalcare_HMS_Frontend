@@ -13,7 +13,8 @@ import { AboutComponent } from './features/about/about.component';
 import { ServicesComponent } from './features/services/services.component';
 import { ContactComponent } from './features/contact/contact.component';
 import { DoctorsListComponent } from './features/admin/doctor-list/doctors-list.component';
-import { DoctorAppointmentsComponent } from './features/doctors/appointments/appointment-list/doctor-appointments.component'; 
+import { DoctorAppointmentsComponent } from './features/doctors/appointments/appointment-list/doctor-appointments.component';
+import { AppointmentFullDetailComponent } from './features/doctors/appointments/appointment-full-detail/appointment-full-detail.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, // Homepage
@@ -50,6 +51,11 @@ export const routes: Routes = [
     {
         path: 'doctor/appointments',
         component: DoctorAppointmentsComponent,
+        canActivate: [AuthGuard]
+    },
+    {
+        path: 'doctor/appointments/:id',
+        component: AppointmentFullDetailComponent,
         canActivate: [AuthGuard]
     },
     { path: '**', redirectTo: '' } // Redirect invalid routes to home

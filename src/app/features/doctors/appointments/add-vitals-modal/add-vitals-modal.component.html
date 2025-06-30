@@ -1,0 +1,100 @@
+<!-- Backdrop -->
+<div class="fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" (click)="close.emit()"></div>
+
+<!-- Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-xl shadow-2xl w-full max-w-2xl transform transition-all" @modalAnimation>
+    <form [formGroup]="vitalsForm" (ngSubmit)="onSubmit()">
+      <!-- Header -->
+      <div class="flex justify-between items-center p-6 border-b border-gray-200">
+        <h3 class="text-xl font-semibold text-gray-800">Add Vital Signs</h3>
+        <button type="button" (click)="close.emit()" class="text-gray-400 hover:text-gray-600">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+      </div>
+
+      <!-- Body -->
+      <div class="p-6 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
+        <!-- Body Temperature -->
+        <div>
+          <label for="body_temperature" class="block text-sm font-medium text-gray-700">Body Temperature (°C)</label>
+          <input type="number" id="body_temperature" formControlName="body_temperature" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          <div *ngIf="vitalsForm.get('body_temperature')?.invalid && vitalsForm.get('body_temperature')?.touched" class="text-red-600 text-xs mt-1">
+            <span *ngIf="vitalsForm.get('body_temperature')?.errors?.['required']">Temperature is required.</span>
+            <span *ngIf="vitalsForm.get('body_temperature')?.errors?.['min'] || vitalsForm.get('body_temperature')?.errors?.['max']">Must be between 35 and 43.</span>
+          </div>
+        </div>
+
+        <!-- Heart Rate -->
+        <div>
+          <label for="heart_rate" class="block text-sm font-medium text-gray-700">Heart Rate (BPM)</label>
+          <input type="text" id="heart_rate" formControlName="heart_rate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="e.g., 60-100">
+          <div *ngIf="vitalsForm.get('heart_rate')?.invalid && vitalsForm.get('heart_rate')?.touched" class="text-red-600 text-xs mt-1">
+            Heart rate is required.
+          </div>
+        </div>
+
+        <!-- Systolic BP -->
+        <div>
+          <label for="systolic" class="block text-sm font-medium text-gray-700">Systolic BP (mmHg)</label>
+          <input type="number" id="systolic" formControlName="systolic" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          <div *ngIf="vitalsForm.get('systolic')?.invalid && vitalsForm.get('systolic')?.touched" class="text-red-600 text-xs mt-1">
+            <span *ngIf="vitalsForm.get('systolic')?.errors?.['required']">Systolic BP is required.</span>
+            <span *ngIf="vitalsForm.get('systolic')?.errors?.['min'] || vitalsForm.get('systolic')?.errors?.['max']">Must be between 70 and 190.</span>
+          </div>
+        </div>
+
+        <!-- Diastolic BP -->
+        <div>
+          <label for="diastolic" class="block text-sm font-medium text-gray-700">Diastolic BP (mmHg)</label>
+          <input type="number" id="diastolic" formControlName="diastolic" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          <div *ngIf="vitalsForm.get('diastolic')?.invalid && vitalsForm.get('diastolic')?.touched" class="text-red-600 text-xs mt-1">
+            <span *ngIf="vitalsForm.get('diastolic')?.errors?.['required']">Diastolic BP is required.</span>
+            <span *ngIf="vitalsForm.get('diastolic')?.errors?.['min'] || vitalsForm.get('diastolic')?.errors?.['max']">Must be between 40 and 100.</span>
+          </div>
+        </div>
+
+        <!-- Weight -->
+        <div>
+          <label for="weight" class="block text-sm font-medium text-gray-700">Weight (Kg)</label>
+          <input type="number" id="weight" formControlName="weight" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          <div *ngIf="vitalsForm.get('weight')?.invalid && vitalsForm.get('weight')?.touched" class="text-red-600 text-xs mt-1">
+            Weight is required and must be a valid number.
+          </div>
+        </div>
+
+        <!-- Height -->
+        <div>
+          <label for="height" class="block text-sm font-medium text-gray-700">Height (Cm)</label>
+          <input type="number" id="height" formControlName="height" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+          <div *ngIf="vitalsForm.get('height')?.invalid && vitalsForm.get('height')?.touched" class="text-red-600 text-xs mt-1">
+            <span *ngIf="vitalsForm.get('height')?.errors?.['required']">Height is required.</span>
+            <span *ngIf="vitalsForm.get('height')?.errors?.['min']">Minimum height is 50 cm.</span>
+          </div>
+        </div>
+        
+        <!-- Respiratory Rate -->
+        <div class="md:col-span-1">
+            <label for="respiratory_rate" class="block text-sm font-medium text-gray-700">Respiratory Rate (breaths/min)</label>
+            <input type="number" id="respiratory_rate" formControlName="respiratory_rate" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Optional">
+        </div>
+
+        <!-- Oxygen Saturation -->
+        <div class="md:col-span-1">
+            <label for="oxygen_saturation" class="block text-sm font-medium text-gray-700">Oxygen Saturation (%)</label>
+            <input type="number" id="oxygen_saturation" formControlName="oxygen_saturation" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Optional">
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="flex justify-end items-center p-6 border-t border-gray-200 bg-gray-50 rounded-b-xl">
+        <button type="button" (click)="close.emit()" class="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50">Cancel</button>
+        <button type="submit" [disabled]="isSubmitting || vitalsForm.invalid" class="ml-3 px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md shadow-sm hover:bg-blue-700 disabled:bg-blue-300">
+          <span *ngIf="!isSubmitting">Submit</span>
+          <span *ngIf="isSubmitting">Submitting...</span>
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
