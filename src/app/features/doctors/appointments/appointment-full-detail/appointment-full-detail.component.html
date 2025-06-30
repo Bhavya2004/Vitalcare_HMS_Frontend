@@ -90,35 +90,50 @@
           </div>
         </div>
 
-        <!-- Right Column (Patient Info) -->
-        <div class="col-span-12 lg:col-span-4">
-            <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-                <div class="flex flex-col items-center text-center">
-                    <img [src]="'http://localhost:3000' + (appointment.patient.img || '/uploads/default-avatar.png')" alt="Patient Photo" class="h-24 w-24 rounded-full object-cover mb-4 border-4 border-white shadow-md">
-                    <h3 class="text-lg font-semibold text-gray-900">{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</h3>
-                    <p class="text-sm text-gray-500">Patient ID: {{ appointment.patient.user_id }}</p>
-                </div>
-                <div class="mt-6 space-y-4 text-sm">
-                  <div>
-                    <label class="font-semibold text-gray-700">Date of Birth</label>
-                    <p class="text-gray-600">{{ appointment.patient.date_of_birth | date: 'longDate' }}</p>
-                  </div>
-                   <div>
-                    <label class="font-semibold text-gray-700">Address</label>
-                    <p class="text-gray-600">{{ appointment.patient.address }}</p>
-                  </div>
-                  <div>
-                    <label class="font-semibold text-gray-700">Email</label>
-                    <p class="text-gray-600">{{ appointment.patient.email }}</p>
-                  </div>
-                  <div>
-                    <label class="font-semibold text-gray-700">Mobile</label>
-                    <p class="text-gray-600">{{ appointment.patient.phone }}</p>
-                  </div>
-                </div>
+        <!-- Right Column -->
+        <div class="col-span-12 lg:col-span-4 space-y-8">
+          <!-- Quick Links -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <h3 class="text-base font-semibold text-gray-800 mb-4">Quick Links</h3>
+            <div class="grid grid-cols-2 gap-3 text-sm">
+              <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Charts</button>
+              <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Appointment</button>
+              <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Medical History</button>
+              <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Lab Tests</button>
+              <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Diagnosis</button>
+              <button class="px-3 py-2 rounded-md bg-blue-600 text-white font-semibold transition-colors text-center">Vital Signs</button>
+              <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Medical Bills</button>
+              <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Payments</button>
             </div>
-        </div>
+          </div>
 
+          <!-- Patient Info -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+            <div class="flex flex-col items-center text-center">
+              <img [src]="'http://localhost:3000' + (appointment.patient.img || '/uploads/default-avatar.png')" alt="Patient Photo" class="h-24 w-24 rounded-full object-cover mb-4 border-4 border-white shadow-md">
+              <h3 class="text-lg font-semibold text-gray-900">{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</h3>
+              <p class="text-sm text-gray-500">Patient ID: {{ appointment.patient.user_id }}</p>
+            </div>
+            <div class="mt-6 space-y-4 text-sm">
+              <div>
+                <label class="font-semibold text-gray-700">Date of Birth</label>
+                <p class="text-gray-600">{{ appointment.patient.date_of_birth | date: 'longDate' }}</p>
+              </div>
+              <div>
+                <label class="font-semibold text-gray-700">Address</label>
+                <p class="text-gray-600">{{ appointment.patient.address }}</p>
+              </div>
+              <div>
+                <label class="font-semibold text-gray-700">Email</label>
+                <p class="text-gray-600">{{ appointment.patient.email }}</p>
+              </div>
+              <div>
+                <label class="font-semibold text-gray-700">Mobile</label>
+                <p class="text-gray-600">{{ appointment.patient.phone }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
