@@ -12,6 +12,7 @@ export interface Doctor {
     phone: string;
     address: string;
     date_of_birth: string;
+    img?: string;
   }
   
   export interface Appointment {

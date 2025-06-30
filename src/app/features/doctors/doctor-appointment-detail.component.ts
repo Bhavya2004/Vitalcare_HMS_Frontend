@@ -71,4 +71,9 @@ export class DoctorAppointmentDetailComponent {
         return 'bg-gray-100 text-gray-800';
     }
   }
+
+  getPatientImgUrl(imgPath: string | undefined): string {
+    if (!imgPath) return '';
+    return `http://localhost:3000${imgPath}`;
+  }
 } 

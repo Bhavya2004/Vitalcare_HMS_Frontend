@@ -169,4 +169,9 @@ export class DoctorAppointmentsComponent implements OnInit {
   getAppointmentCountByStatus(status: string): number {
     return this.filteredAppointments.filter(appointment => appointment.status === status).length;
   }
+
+  getPatientImgUrl(imgPath: string | undefined): string {
+    if (!imgPath) return '';
+    return `http://localhost:3000${imgPath}`;
+  }
 } 

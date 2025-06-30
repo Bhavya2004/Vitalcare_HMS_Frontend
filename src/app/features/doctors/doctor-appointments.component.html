@@ -115,9 +115,14 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="h-10 w-10 flex-shrink-0">
-                      <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
-                        <i class="material-icons text-gray-400">person</i>
-                      </div>
+                      <ng-container *ngIf="appointment.patient.img; else defaultPatientIcon">
+                        <img [src]="getPatientImgUrl(appointment.patient.img)" alt="Patient Photo" class="h-10 w-10 rounded-full object-cover" />
+                      </ng-container>
+                      <ng-template #defaultPatientIcon>
+                        <div class="h-10 w-10 rounded-full bg-gray-100 flex items-center justify-center">
+                          <i class="material-icons text-gray-400">person</i>
+                        </div>
+                      </ng-template>
                     </div>
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">{{ appointment.patient.first_name }} {{ appointment.patient.last_name }}</div>

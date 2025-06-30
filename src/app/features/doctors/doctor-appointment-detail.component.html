@@ -30,8 +30,15 @@
       <div class="flex justify-between">
         <!-- Left -->
         <div class="flex items-center gap-4">
-          <div class="h-14 w-14 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 text-base font-semibold shadow-sm">
-            {{ selectedAppointment.patient.first_name[0] }}{{ selectedAppointment.patient.last_name[0] }}
+          <div class="h-14 w-14 flex-shrink-0">
+            <ng-container *ngIf="selectedAppointment.patient.img; else patientInitials">
+              <img [src]="getPatientImgUrl(selectedAppointment.patient.img)" alt="Patient Photo" class="h-14 w-14 rounded-full object-cover" />
+            </ng-container>
+            <ng-template #patientInitials>
+              <div class="h-14 w-14 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-700 text-base font-semibold shadow-sm">
+                {{ selectedAppointment.patient.first_name[0] }}{{ selectedAppointment.patient.last_name[0] }}
+              </div>
+            </ng-template>
           </div>
           <div>
             <div class="text-base font-semibold text-gray-800">
