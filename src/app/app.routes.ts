@@ -15,14 +15,15 @@ import { ContactComponent } from './features/contact/contact.component';
 import { DoctorsListComponent } from './features/admin/doctor-list/doctors-list.component';
 import { DoctorAppointmentsComponent } from './features/doctors/appointments/appointment-list/doctor-appointments.component';
 import { AppointmentFullDetailComponent } from './features/doctors/appointments/appointment-full-detail/appointment-full-detail.component';
+import { NotFoundComponent } from './features/not-found/not-found.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, // Homepage
     { path: 'about', component: AboutComponent }, // About page
     { path: 'services', component: ServicesComponent }, // Services page
     { path: 'contact', component: ContactComponent }, // Contact page
-    { path: 'sign-in', component: LoginComponent }, // Login page
-    { path: 'sign-up', component: RegisterComponent }, // Register page
+    { path: 'auth/login', component: LoginComponent }, // Login page
+    { path: 'auth/register', component: RegisterComponent }, // Register page
     { 
         path: 'patient/register', 
         component: PatientRegisterComponent,
@@ -58,7 +59,7 @@ export const routes: Routes = [
         component: AppointmentFullDetailComponent,
         canActivate: [AuthGuard]
     },
-    { path: '**', redirectTo: '' } // Redirect invalid routes to home
+    { path: '**', component: NotFoundComponent }, // Redirect invalid routes to home
 ];
 
 @NgModule({
