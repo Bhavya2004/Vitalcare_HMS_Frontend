@@ -58,17 +58,20 @@ export class AddVitalsModalComponent implements OnInit {
     this.isSubmitting = true;
     const formData = this.vitalsForm.value;
 
-    // Convert to numbers where appropriate
-    const payload = {
-      ...formData,
-      body_temperature: parseFloat(formData.body_temperature),
-      systolic: parseInt(formData.systolic, 10),
-      diastolic: parseInt(formData.diastolic, 10),
+    // Build payload to match backend expectations
+    const payload: any = {
+      temperature: parseFloat(formData.body_temperature),
+      blood_pressure: `${formData.systolic}/${formData.diastolic}`,
+      heart_rate: parseInt(formData.heart_rate, 10),
       weight: parseFloat(formData.weight),
       height: parseFloat(formData.height),
-      respiratory_rate: formData.respiratory_rate ? parseInt(formData.respiratory_rate, 10) : null,
-      oxygen_saturation: formData.oxygen_saturation ? parseInt(formData.oxygen_saturation, 10) : null,
     };
+    if (formData.respiratory_rate) {
+      payload.respiratory_rate = parseInt(formData.respiratory_rate, 10);
+    }
+    if (formData.oxygen_saturation) {
+      payload.oxygen_saturation = parseInt(formData.oxygen_saturation, 10);
+    }
     
     this.doctorService.addVitalSigns(this.appointmentId, payload).subscribe({
         next: (newVitals: any) => {

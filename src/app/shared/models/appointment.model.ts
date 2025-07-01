@@ -5,6 +5,7 @@ export interface VitalSigns {
   systolic: number;
   diastolic: number;
   heartRate: string;
+  heart_rate?: string;
   weight: number;
   height: number;
 }
@@ -60,4 +61,19 @@ export interface ApiResponse<T> {
   message?: string;
   data: T;
   errors?: any;
+}
+
+export interface Diagnosis {
+  id: number;
+  patient_id: string;
+  medical_id: number;
+  doctor_id: string;
+  symptoms: string;
+  diagnosis: string;
+  notes?: string;
+  prescribed_medications?: string;
+  follow_up_plan?: string;
+  created_at: string;
+  updated_at: string;
+  doctor?: Doctor;
 }

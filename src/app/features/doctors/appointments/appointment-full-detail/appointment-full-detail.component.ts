@@ -6,11 +6,13 @@ import { Appointment } from '../../../../shared/models/appointment.model';
 import { DoctorsService } from '../../../../core/services/doctors.service';
 import { ToastrService } from 'ngx-toastr';
 import { AddVitalsModalComponent } from '../add-vitals-modal/add-vitals-modal.component';
+import { AddDiagnosisModalComponent } from '../add-diagnosis-modal/add-diagnosis-modal.component';
+import { Diagnosis } from '../../../../shared/models/appointment.model';
 
 @Component({
   selector: 'app-appointment-full-detail',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, AddVitalsModalComponent, RouterModule],
+  imports: [CommonModule, SidebarComponent, AddVitalsModalComponent, AddDiagnosisModalComponent, RouterModule],
   templateUrl: './appointment-full-detail.component.html',
   styleUrls: ['./appointment-full-detail.component.css'],
 })
@@ -18,6 +20,10 @@ export class AppointmentFullDetailComponent implements OnInit {
   appointment: Appointment | null = null;
   isLoading = true;
   showAddVitalsModal = false;
+  showAddDiagnosisModal = false;
+  activeTab: 'vitals' | 'diagnosis' = 'vitals';
+  diagnosisList: Diagnosis[] = [];
+  isDiagnosisLoading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +35,7 @@ export class AppointmentFullDetailComponent implements OnInit {
     const appointmentId = this.route.snapshot.paramMap.get('id');
     if (appointmentId) {
       this.loadAppointmentDetails(+appointmentId);
+      this.loadDiagnosis(+appointmentId);
     }
   }
 
@@ -47,11 +54,43 @@ export class AppointmentFullDetailComponent implements OnInit {
     });
   }
 
+  loadDiagnosis(id: number): void {
+    this.isDiagnosisLoading = true;
+    this.doctorService.getDiagnosisForAppointment(id).subscribe({
+      next: (diagnosis: Diagnosis[]) => {
+        this.diagnosisList = diagnosis;
+        this.isDiagnosisLoading = false;
+      },
+      error: (err: any) => {
+        this.isDiagnosisLoading = false;
+        this.toastr.error('Failed to load diagnosis.');
+        console.error(err);
+      },
+    });
+  }
+
   onVitalsAdded(newVitals: any) {
     if (this.appointment) {
-      // Re-fetch the appointment to get the latest data including the new vitals
       this.loadAppointmentDetails(this.appointment.id);
     }
+  }
+
+  onDiagnosisAdded(newDiagnosis: Diagnosis) {
+    if (this.appointment) {
+      this.loadDiagnosis(this.appointment.id);
+    }
+  }
+
+  openAddDiagnosisModal() {
+    this.showAddDiagnosisModal = true;
+  }
+
+  closeAddDiagnosisModal() {
+    this.showAddDiagnosisModal = false;
+  }
+
+  setActiveTab(tab: 'vitals' | 'diagnosis') {
+    this.activeTab = tab;
   }
 
   formatTime(time: string): string {

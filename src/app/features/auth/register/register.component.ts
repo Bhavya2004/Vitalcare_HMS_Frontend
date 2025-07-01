@@ -27,7 +27,7 @@ export class RegisterComponent {
   fieldErrors: { [key: string]: string } = {};
   isSubmitting: boolean = false;
 
-  private readonly loginRoute = '/sign-in';
+  private readonly loginRoute = '/auth/login';
 
   constructor(
     private authService: AuthService,

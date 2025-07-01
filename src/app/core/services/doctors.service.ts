@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ApiResponse, Appointment } from '../../shared/models/appointment.model';
+import { ApiResponse, Appointment, Diagnosis } from '../../shared/models/appointment.model';
 
 export interface WorkingDay {
   day: string;
@@ -81,5 +81,17 @@ export class DoctorsService {
       data,
       { headers: this.getAuthHeaders() }
     );
+  }
+
+  getDiagnosisForAppointment(appointmentId: number): Observable<Diagnosis[]> {
+    return this.http.get<Diagnosis[]>(`${this.doctorUrl}/appointments/${appointmentId}/diagnosis`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  addDiagnosisForAppointment(appointmentId: number, data: any): Observable<Diagnosis> {
+    return this.http.post<Diagnosis>(`${this.doctorUrl}/appointments/${appointmentId}/diagnosis`, data, {
+      headers: this.getAuthHeaders(),
+    });
   }
 } 
