@@ -16,6 +16,7 @@ import { DoctorsListComponent } from './features/admin/doctor-list/doctors-list.
 import { DoctorAppointmentsComponent } from './features/doctors/appointments/appointment-list/doctor-appointments.component';
 import { AppointmentFullDetailComponent } from './features/doctors/appointments/appointment-full-detail/appointment-full-detail.component';
 import { NotFoundComponent } from './features/not-found/not-found.component';
+import { ServicesListComponent } from './features/admin/services/services-list.component';
 
 export const routes: Routes = [
     { path: '', component: HomeComponent }, // Homepage
@@ -58,6 +59,10 @@ export const routes: Routes = [
         path: 'doctor/appointments/:id',
         component: AppointmentFullDetailComponent,
         canActivate: [AuthGuard]
+    },
+    {
+        path: 'admin/system-settings',
+        component: ServicesListComponent,
     },
     { path: '**', component: NotFoundComponent }, // Redirect invalid routes to home
 ];
