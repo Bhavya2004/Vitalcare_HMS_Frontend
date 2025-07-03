@@ -8,11 +8,14 @@ import { ToastrService } from 'ngx-toastr';
 import { AddVitalsModalComponent } from '../add-vitals-modal/add-vitals-modal.component';
 import { AddDiagnosisModalComponent } from '../add-diagnosis-modal/add-diagnosis-modal.component';
 import { Diagnosis } from '../../../../shared/models/appointment.model';
+import { AddBillModalComponent } from '../bills/add-bill-modal.component';
+import { PatientBillsListComponent } from '../bills/patient-bills-list.component';
+import { GenerateFinalBillModalComponent } from '../bills/generate-final-bill-modal.component';
 
 @Component({
   selector: 'app-appointment-full-detail',
   standalone: true,
-  imports: [CommonModule, SidebarComponent, AddVitalsModalComponent, AddDiagnosisModalComponent, RouterModule],
+  imports: [CommonModule, SidebarComponent, AddVitalsModalComponent, AddDiagnosisModalComponent, RouterModule,AddBillModalComponent,PatientBillsListComponent,GenerateFinalBillModalComponent],
   templateUrl: './appointment-full-detail.component.html',
   styleUrls: ['./appointment-full-detail.component.css'],
 })
@@ -21,9 +24,13 @@ export class AppointmentFullDetailComponent implements OnInit {
   isLoading = true;
   showAddVitalsModal = false;
   showAddDiagnosisModal = false;
-  activeTab: 'vitals' | 'diagnosis' = 'vitals';
+  activeTab: string = 'vitals';
   diagnosisList: Diagnosis[] = [];
   isDiagnosisLoading = false;
+  showBills = false;
+  showAddBillModal = false;
+  showGenerateFinalBillModal = false;
+  billsTotal = 0;
 
   constructor(
     private route: ActivatedRoute,
@@ -89,7 +96,7 @@ export class AppointmentFullDetailComponent implements OnInit {
     this.showAddDiagnosisModal = false;
   }
 
-  setActiveTab(tab: 'vitals' | 'diagnosis') {
+  setActiveTab(tab: string) {
     this.activeTab = tab;
   }
 
@@ -99,5 +106,35 @@ export class AppointmentFullDetailComponent implements OnInit {
     const date = new Date();
     date.setHours(hour, minute, 0, 0);
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
+  }
+
+  openBills() {
+    this.showBills = true;
+  }
+
+  closeBills() {
+    this.showBills = false;
+  }
+
+  openAddBillModal() {
+    this.showAddBillModal = true;
+  }
+
+  closeAddBillModal(refresh: boolean) {
+    this.showAddBillModal = false;
+  }
+
+  openGenerateFinalBillModal() {
+    this.showGenerateFinalBillModal = true;
+  }
+
+  closeGenerateFinalBillModal(refresh: boolean) {
+    this.showGenerateFinalBillModal = false;
+  }
+
+  onBillsChanged() {
+    // This will be called when bills are added/deleted/generated
+    // You may want to fetch the latest total from the child or recalculate
+    // For now, just trigger change detection or fetch if needed
   }
 }

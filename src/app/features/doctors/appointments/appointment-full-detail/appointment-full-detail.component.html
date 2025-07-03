@@ -124,6 +124,11 @@
               </div>
             </div>
           </ng-container>
+
+          <!-- After diagnosis/vitals, add bills list -->
+          <ng-container *ngIf="activeTab === 'bills'">
+            <app-patient-bills-list [appointmentId]="appointment.id" (addBill)="openAddBillModal()" (generateFinalBill)="openGenerateFinalBillModal()" (billsChanged)="onBillsChanged()" (totalBillChange)="billsTotal = $event"></app-patient-bills-list>
+          </ng-container>
         </div>
 
         <!-- Right Column -->
@@ -138,7 +143,7 @@
               <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Lab Tests</button>
               <button (click)="setActiveTab('diagnosis')" [ngClass]="{'bg-blue-600 text-white font-semibold': activeTab === 'diagnosis', 'bg-gray-100 text-gray-700': activeTab !== 'diagnosis'}" class="px-3 py-2 rounded-md transition-colors text-center">Diagnosis</button>
               <button (click)="setActiveTab('vitals')" [ngClass]="{'bg-blue-600 text-white font-semibold': activeTab === 'vitals', 'bg-gray-100 text-gray-700': activeTab !== 'vitals'}" class="px-3 py-2 rounded-md transition-colors text-center">Vital Signs</button>
-              <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Medical Bills</button>
+              <button (click)="setActiveTab('bills')" [ngClass]="{'bg-blue-600 text-white font-semibold': activeTab === 'bills', 'bg-gray-100 text-gray-700': activeTab !== 'bills'}" class="px-3 py-2 rounded-md transition-colors text-center">Medical Bills</button>
               <button class="px-3 py-2 rounded-md bg-gray-100 text-gray-700 hover:bg-gray-200 transition-colors text-center" disabled>Payments</button>
             </div>
           </div>
@@ -190,3 +195,9 @@
   (close)="closeAddDiagnosisModal()"
   (diagnosisAdded)="onDiagnosisAdded($event)">
 </app-add-diagnosis-modal>
+
+<!-- Add Bill Modal -->
+<app-add-bill-modal *ngIf="showAddBillModal && appointment" [appointmentId]="appointment.id" (close)="closeAddBillModal($event)" (billAdded)="onBillsChanged()"></app-add-bill-modal>
+
+<!-- Generate Final Bill Modal -->
+<app-generate-final-bill-modal *ngIf="showGenerateFinalBillModal && appointment" [appointmentId]="appointment.id" [totalBill]="billsTotal" (close)="closeGenerateFinalBillModal($event)"></app-generate-final-bill-modal>

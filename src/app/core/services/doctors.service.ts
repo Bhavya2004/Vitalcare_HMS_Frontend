@@ -94,4 +94,35 @@ export class DoctorsService {
       headers: this.getAuthHeaders(),
     });
   }
+
+  // --- Billing API Methods ---
+  getBillsForAppointment(appointmentId: number): Observable<any[]> {
+    return this.http.get<any[]>(`${this.doctorUrl}/appointments/${appointmentId}/bills`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  addBillToAppointment(appointmentId: number, billData: any): Observable<any> {
+    return this.http.post<any>(`${this.doctorUrl}/appointments/${appointmentId}/bills`, billData, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  deleteBillFromAppointment(appointmentId: number, billId: number): Observable<any> {
+    return this.http.delete<any>(`${this.doctorUrl}/appointments/${appointmentId}/bills/${billId}`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  generateFinalBillForAppointment(appointmentId: number, data: any): Observable<any> {
+    return this.http.post<any>(`${this.doctorUrl}/appointments/${appointmentId}/generate-bill`, data, {
+      headers: this.getAuthHeaders(),
+    });
+  }
+
+  getAllServices(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.doctorUrl}/services`, {
+      headers: this.getAuthHeaders(),
+    });
+  }
 } 
