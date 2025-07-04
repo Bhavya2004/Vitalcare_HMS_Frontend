@@ -64,6 +64,11 @@ export const routes: Routes = [
         path: 'admin/system-settings',
         component: ServicesListComponent,
     },
+    {
+        path: 'notifications',
+        canActivate: [AuthGuard],
+        loadComponent: () => import('./features/notifications/notifications-list/notifications-list.component').then(m => m.NotificationsListComponent)
+    },
     { path: '**', component: NotFoundComponent }, // Redirect invalid routes to home
 ];
 
