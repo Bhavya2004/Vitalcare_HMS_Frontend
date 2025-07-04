@@ -1,0 +1,73 @@
+<app-navbar></app-navbar>
+
+<div class="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+  <div class="container mx-auto px-4 py-12">
+    <!-- Hero Section -->
+    <div class="flex flex-col items-center justify-center py-12">
+      <!-- Welcome Message -->
+      <div class="mb-8 text-center">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+          Welcome to <span class="text-blue-600">VitalCare HMS</span>
+        </h1>
+        <p class="text-lg text-gray-600 mb-8 max-w-xl mx-auto">
+          Your comprehensive healthcare management solution. Streamline patient care, manage appointments, and improve healthcare delivery with our modern platform.
+        </p>
+      </div>
+      
+      <!-- Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a 
+          [routerLink]="'/auth/register'" 
+          class="px-6 py-3 bg-blue-600 text-white rounded-lg font-medium shadow-lg hover:bg-blue-700 transition duration-300 flex items-center justify-center gap-2"
+        >
+          <span class="material-icons">person_add</span>
+          New Patient
+        </a>
+        <a 
+          [routerLink]="'/auth/login'" 
+          class="px-6 py-3 bg-white text-blue-600 border border-blue-600 rounded-lg font-medium shadow-md hover:bg-blue-50 transition duration-300 flex items-center justify-center gap-2"
+        >
+          <span class="material-icons">login</span>
+          Login to account
+        </a>
+      </div>
+    </div>
+    
+    <!-- Features Section -->
+    <div class="py-16">
+      <h2 class="text-3xl font-bold text-center mb-12">Why Choose VitalCare HMS</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+            <span class="material-icons text-blue-600">schedule</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Easy Appointments</h3>
+          <p class="text-gray-600">Schedule and manage appointments with ease, reducing wait times and improving patient satisfaction.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+            <span class="material-icons text-blue-600">folder</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Digital Records</h3>
+          <p class="text-gray-600">Access patient records securely from anywhere, improving care coordination and reducing errors.</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-md hover:shadow-lg transition duration-300">
+          <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
+            <span class="material-icons text-blue-600">analytics</span>
+          </div>
+          <h3 class="text-xl font-semibold mb-2">Healthcare Analytics</h3>
+          <p class="text-gray-600">Gain insights from your data to improve patient outcomes and operational efficiency.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer class="bg-gray-50 border-t border-gray-200 py-8">
+    <div class="container mx-auto px-4 text-center">
+      <p class="text-gray-600">
+        &copy; 2025 VitalCare Hospital Management System. All rights reserved.
+      </p>
+    </div>
+  </footer>
+</div>

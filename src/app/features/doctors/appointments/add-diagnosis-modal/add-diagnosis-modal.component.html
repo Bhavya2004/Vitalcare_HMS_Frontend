@@ -1,0 +1,45 @@
+<!-- Backdrop -->
+<div class="fixed inset-0 bg-black/40 z-40 backdrop-blur-sm" (click)="onClose()"></div>
+
+<!-- Modal -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+  <div class="bg-white rounded-lg shadow-lg w-full max-w-lg p-8 relative">
+    <button (click)="onClose()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+      <span class="material-icons">close</span>
+    </button>
+    <h2 class="text-xl font-bold mb-2">Add New Diagnosis</h2>
+    <p class="text-gray-500 mb-6 text-sm">Ensure accurate findings are presented and corrected accordingly to ensure that they are correct for your application and that they do not result in an error.</p>
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Symptoms</label>
+        <textarea formControlName="symptoms" rows="2" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter symptoms"></textarea>
+        <div *ngIf="form.get('symptoms')?.invalid && form.get('symptoms')?.touched" class="text-xs text-red-500 mt-1">Symptoms are required.</div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Diagnosis (Findings)</label>
+        <textarea formControlName="diagnosis" rows="2" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter diagnosis findings"></textarea>
+        <div *ngIf="form.get('diagnosis')?.invalid && form.get('diagnosis')?.touched" class="text-xs text-red-500 mt-1">Diagnosis is required.</div>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Prescriptions for this patient</label>
+        <textarea formControlName="prescribed_medications" rows="2" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter prescriptions"></textarea>
+      </div>
+      <div class="grid grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Additional Notes for this treatment</label>
+          <textarea formControlName="notes" rows="2" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Enter notes"></textarea>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Follow Up Plan</label>
+          <input formControlName="follow_up_plan" type="text" class="w-full border border-gray-300 rounded-lg p-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Optional">
+        </div>
+      </div>
+      <div class="flex justify-end gap-2 mt-6">
+        <button type="button" (click)="onClose()" class="px-4 py-2 rounded-lg border border-gray-300 text-gray-700 bg-white hover:bg-gray-50">Cancel</button>
+        <button type="submit" [disabled]="form.invalid || isSubmitting" class="px-6 py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:opacity-60">
+          {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,114 @@
+/* Custom animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Stats card animations */
+.stat-card {
+  animation: fadeIn 0.5s ease-out forwards;
+  opacity: 0;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+/* Number counter animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.text-3xl {
+  animation: countUp 0.8s ease-out forwards;
+}
+
+/* Icon hover effects */
+.material-icons {
+  transition: all 0.3s ease;
+}
+
+.bg-white:hover .material-icons {
+  transform: scale(1.1);
+  color: #2563eb;
+}
+
+/* Card hover effects */
+.bg-white {
+  transition: all 0.3s ease;
+}
+
+.bg-white:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Gradient text effect */
+.text-blue-600 {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Button hover effect */
+a.bg-blue-600 {
+  position: relative;
+  overflow: hidden;
+}
+
+a.bg-blue-600::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+a.bg-blue-600:hover::after {
+  width: 300px;
+  height: 300px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  
+  h1 {
+    font-size: 2.5rem;
+  }
+  
+  .text-lg {
+    font-size: 1rem;
+  }
+}
+
+/* Material Icons styling */
+.material-icons {
+  font-size: 24px;
+  line-height: 1;
+}
+
+/* Team member card hover effect */
+.team-member-card {
+  transition: all 0.3s ease;
+}
+
+.team-member-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+} 

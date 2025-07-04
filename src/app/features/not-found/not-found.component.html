@@ -1,0 +1,22 @@
+<div class="flex h-screen bg-gray-50">
+  <app-sidebar></app-sidebar>
+
+  <div class="flex-1 flex flex-col">
+    <div class="bg-white border-b border-gray-200 px-8 py-4">
+      <h1 class="text-xl font-semibold text-gray-900">Page Not Found</h1>
+    </div>
+
+    <main class="flex-1 flex flex-col items-center justify-center text-center p-8">
+      <div class="max-w-md">
+        <h2 class="text-6xl font-extrabold text-blue-600">404</h2>
+        <p class="mt-4 text-2xl font-semibold text-gray-800">Oops! Page not found.</p>
+        <p class="mt-2 text-base text-gray-500">
+          We're sorry, but the page you are looking for doesn't exist or has been moved.
+        </p>
+        <a routerLink="/dashboard" class="mt-8 inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+          Go back to Dashboard
+        </a>
+      </div>
+    </main>
+  </div>
+</div>
